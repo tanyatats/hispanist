@@ -99,7 +99,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Клик по самой карточке тоже переворачивает
   flashcard.addEventListener('click', (e) => {
-    // Чтобы не срабатывало при нажатии на кнопки
     if (e.target.tagName === 'BUTTON') return;
     if (!flashcard.classList.contains('flipped')) {
       flashcard.classList.add('flipped');
@@ -145,12 +144,12 @@ document.addEventListener('DOMContentLoaded', () => {
   function backToHome() {
     studyScreen.classList.add('hidden');
     homeScreen.classList.remove('hidden');
-    renderTopics(); // обновить, например, прогресс
+    renderTopics();
   }
 
   // ===== ПРЕМИУМ ЛОГИКА =====
-  // Замените этот хэш на SHA-256 от вашего реального кода доступа!
-  const PREMIUM_HASH = '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8'; // это хэш от "password"
+  // Это хэш вашего секретного кода доступа. Меняйте его каждый месяц!
+  const PREMIUM_HASH = '7a2f5099bf9b59a7d2885737c912ea64960fd2cf6919860bce18414bf4946db7';
 
   goPremiumBtn.addEventListener('click', () => {
     premiumModal.classList.remove('hidden');
@@ -199,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let due = [];
 
     for (let word of currentWords) {
-      const wordId = word.es; // используем испанское слово как уникальный идентификатор
+      const wordId = word.es;
       const record = srsData[wordId] || {
         dueDate: Date.now(),
         interval: 0,
@@ -210,7 +209,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Если ни одно слово не созрело, повторяем все (например, после сброса)
     if (due.length === 0) {
       due = currentWords.map(w => ({
         ...w,
