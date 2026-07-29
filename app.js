@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+ document.addEventListener('DOMContentLoaded', () => {
   // --- DOM элементы ---
   const homeScreen = document.getElementById('home-screen');
   const studyScreen = document.getElementById('study-screen');
@@ -116,7 +116,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   againBtn.addEventListener('click', () => {
     updateSRS(dueWords[currentIndex].id, 'again');
-    nextWord();
+    // Переворачиваем карточку обратно, слово остаётся тем же
+    flashcard.classList.remove('flipped');
+    againBtn.classList.add('hidden');
+    goodBtn.classList.add('hidden');
+    flipBtn.classList.remove('hidden');
   });
 
   function nextWord() {
@@ -148,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ===== ПРЕМИУМ ЛОГИКА =====
-  // Это хэш вашего секретного кода доступа. Меняйте его каждый месяц!
+  // Хэш от вашего кода ESPAÑOL2026
   const PREMIUM_HASH = '7a2f5099bf9b59a7d2885737c912ea64960fd2cf6919860bce18414bf4946db7';
 
   goPremiumBtn.addEventListener('click', () => {
