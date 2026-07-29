@@ -14,18 +14,20 @@
       <p>Выберите тему, чтобы начать тренировку</p>
       <div id="topics-grid"></div>
       <button id="go-premium">🌟 Премиум доступ</button>
-      <div id="premium-modal" class="modal hidden">
-        <div class="modal-content">
-          <h2>Введите код доступа</h2>
-          <input type="text" id="premium-code" placeholder="Ваш код">
-          <button id="activate-premium">Активировать</button>
-          <button id="close-modal">Закрыть</button>
-          <p id="premium-message"></p>
-        </div>
+    </div>
+
+    <!-- Модальное окно (изначально скрыто) -->
+    <div id="premium-modal" class="modal hidden">
+      <div class="modal-content">
+        <h2>Введите код доступа</h2>
+        <input type="text" id="premium-code" placeholder="Ваш код">
+        <button id="activate-premium">Активировать</button>
+        <button id="close-modal">Закрыть</button>
+        <p id="premium-message"></p>
       </div>
     </div>
 
-    <!-- Экран тренировки -->
+    <!-- Экран тренировки (изначально скрыт) -->
     <div id="study-screen" class="hidden">
       <button id="back-btn">← Назад к темам</button>
       <h2 id="topic-title"></h2>
