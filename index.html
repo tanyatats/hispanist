@@ -8,31 +8,35 @@
 </head>
 <body>
   <div id="app">
-    <!-- Главный экран выбора тем -->
+    <!-- Главный экран -->
     <div id="home-screen">
-      <h1>🇪🇸 Hispanist – Карточки испанского</h1>
-      <p>Выберите тему, чтобы начать тренировку</p>
+      <div class="hero">
+        <h1>🇪🇸 Hispanist</h1>
+        <p class="subtitle">Карточки испанского языка</p>
+        <p class="desc">Выберите тему, чтобы начать тренировку</p>
+      </div>
       <div id="topics-grid"></div>
-      <button id="go-premium">🌟 Премиум доступ</button>
+      <button id="go-premium" class="btn-premium">🌟 Премиум доступ</button>
     </div>
 
-    <!-- Модальное окно (изначально скрыто) -->
+    <!-- Модальное окно ввода кода -->
     <div id="premium-modal" class="modal hidden">
       <div class="modal-content">
         <h2>Введите код доступа</h2>
         <input type="text" id="premium-code" placeholder="Ваш код">
-        <button id="activate-premium">Активировать</button>
-        <button id="close-modal">Закрыть</button>
+        <button id="activate-premium" class="btn-primary">Активировать</button>
+        <button id="close-modal" class="btn-text">Закрыть</button>
         <p id="premium-message"></p>
       </div>
     </div>
 
-    <!-- Экран тренировки (изначально скрыт) -->
+    <!-- Экран тренировки -->
     <div id="study-screen" class="hidden">
-      <button id="back-btn">← Назад к темам</button>
-      <h2 id="topic-title"></h2>
-      <div id="progress">Слов сегодня: <span id="studied-count">0</span></div>
-      <div id="card-container">
+      <button id="back-btn" class="btn-back">← Назад к темам</button>
+      <h2 id="topic-title" class="topic-heading"></h2>
+      <div id="progress" class="progress-badge">Слов сегодня: <span id="studied-count">0</span></div>
+      
+      <div id="card-container" class="card-scene">
         <div id="flashcard">
           <div class="front"><span id="word-es"></span></div>
           <div class="back">
@@ -40,12 +44,13 @@
             <p id="example"></p>
           </div>
         </div>
-        <div id="card-controls">
-          <button id="flip-btn">Перевернуть</button>
-          <button id="again-btn" class="hidden">Повторить</button>
-          <button id="good-btn" class="hidden">Знаю</button>
-          <button id="speak-btn">🔊</button>
-        </div>
+      </div>
+
+      <div id="card-controls">
+        <button id="flip-btn" class="btn-action">Перевернуть</button>
+        <button id="again-btn" class="btn-again hidden">Повторить</button>
+        <button id="good-btn" class="btn-good hidden">Знаю</button>
+        <button id="speak-btn" class="btn-speak">🔊</button>
       </div>
     </div>
   </div>
