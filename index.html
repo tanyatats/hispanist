@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hispanist – Учим испанский</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Главный экран выбора тем -->
+    <div id="home-screen">
+      <h1>🇪🇸 Hispanist – Карточки испанского</h1>
+      <p>Выберите тему, чтобы начать тренировку</p>
+      <div id="topics-grid"></div>
+      <button id="go-premium">🌟 Премиум доступ</button>
+      <div id="premium-modal" class="modal hidden">
+        <div class="modal-content">
+          <h2>Введите код доступа</h2>
+          <input type="text" id="premium-code" placeholder="Ваш код">
+          <button id="activate-premium">Активировать</button>
+          <button id="close-modal">Закрыть</button>
+          <p id="premium-message"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Экран тренировки -->
+    <div id="study-screen" class="hidden">
+      <button id="back-btn">← Назад к темам</button>
+      <h2 id="topic-title"></h2>
+      <div id="progress">Слов сегодня: <span id="studied-count">0</span></div>
+      <div id="card-container">
+        <div id="flashcard">
+          <div class="front"><span id="word-es"></span></div>
+          <div class="back">
+            <span id="word-ru"></span>
+            <p id="example"></p>
+          </div>
+        </div>
+        <div id="card-controls">
+          <button id="flip-btn">Перевернуть</button>
+          <button id="again-btn" class="hidden">Повторить</button>
+          <button id="good-btn" class="hidden">Знаю</button>
+          <button id="speak-btn">🔊</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
