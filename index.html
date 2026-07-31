@@ -4,12 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hispanist — Учим испанский по карточкам</title>
+  <meta name="description" content="Учите испанские слова по карточкам с озвучкой и умным повторением. 200 слов бесплатно, полный курс — по премиум-доступу.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div id="app">
+    <!-- Главный экран -->
     <div id="home-screen">
       <div class="hero">
         <h1>🇪🇸 Hispanist</h1>
@@ -20,6 +22,7 @@
       <button id="go-premium" class="btn-premium">🌟 Открыть все темы — Премиум</button>
     </div>
 
+    <!-- Модальное окно ввода кода -->
     <div id="premium-modal" class="modal hidden">
       <div class="modal-content">
         <h2>🌟 Премиум-доступ</h2>
@@ -35,6 +38,7 @@
       </div>
     </div>
 
+    <!-- Триггерный экран (после бесплатной темы) -->
     <div id="celebrate-screen" class="hidden">
       <div class="celebrate-card">
         <div class="emoji">🎉</div>
@@ -51,12 +55,14 @@
       </div>
     </div>
 
+    <!-- Экран тренировки -->
     <div id="study-screen" class="hidden">
       <button id="back-btn" class="btn-back">← Назад к темам</button>
       <h2 id="topic-title" class="topic-heading"></h2>
       <div class="progress-wrap">
-        <div class="progress-badge">Слов сегодня: <span id="studied-count">0</span></div>
+        <div id="progress" class="progress-badge">Слов сегодня: <span id="studied-count">0</span></div>
       </div>
+
       <div id="card-container" class="card-scene">
         <div id="flashcard">
           <div class="front"><span id="word-es"></span></div>
@@ -66,6 +72,7 @@
           </div>
         </div>
       </div>
+
       <div id="card-controls">
         <button id="flip-btn" class="btn-action">Перевернуть</button>
         <button id="again-btn" class="btn-again hidden">Повторить</button>
@@ -74,7 +81,8 @@
       </div>
     </div>
   </div>
-  <canvas id="confettiCanvas"></canvas>
+
+  <canvas id="confettiCanvas" style="position:fixed; inset:0; width:100%; height:100%; pointer-events:none; z-index:9999;"></canvas>
   <script src="app.js"></script>
 </body>
 </html>
