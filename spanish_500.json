@@ -1775,11 +1775,6 @@
           "example": "La impresora no tiene tinta."
         },
         {
-          "es": "la reunión",
-          "ru": "совещание",
-          "example": "Reunión por Zoom."
-        },
-        {
           "es": "el horario",
           "ru": "расписание",
           "example": "Mi horario es flexible."
@@ -2019,11 +2014,6 @@
           "es": "el recuerdo",
           "ru": "сувенир",
           "example": "Traje un recuerdo de París."
-        },
-        {
-          "es": "la maleta",
-          "ru": "чемодан",
-          "example": "La maleta pesa mucho."
         },
         {
           "es": "facturar",
@@ -3372,6 +3362,786 @@
           "es": "billete",
           "ru": "билет",
           "example": "Compré un billete de tren."
+        }
+      ]
+    },
+    "cuerpo": {
+      "title": "🧍 Тело и внешность",
+      "premium": true,
+      "words": [
+        {
+          "es": "cuerpo",
+          "ru": "тело",
+          "example": "El ejercicio es bueno para el cuerpo."
+        },
+        {
+          "es": "cabeza",
+          "ru": "голова",
+          "example": "Me duele la cabeza."
+        },
+        {
+          "es": "cara",
+          "ru": "лицо",
+          "example": "Tiene una cara amable."
+        },
+        {
+          "es": "ojo",
+          "ru": "глаз",
+          "example": "Tiene los ojos azules."
+        },
+        {
+          "es": "nariz",
+          "ru": "нос",
+          "example": "Me duele la nariz."
+        },
+        {
+          "es": "boca",
+          "ru": "рот",
+          "example": "Abre la boca, por favor."
+        },
+        {
+          "es": "oreja",
+          "ru": "ухо",
+          "example": "Le duele la oreja."
+        },
+        {
+          "es": "diente",
+          "ru": "зуб",
+          "example": "Me lavo los dientes."
+        },
+        {
+          "es": "pelo",
+          "ru": "волосы",
+          "example": "Tiene el pelo largo."
+        },
+        {
+          "es": "cuello",
+          "ru": "шея",
+          "example": "Me duele el cuello."
+        },
+        {
+          "es": "hombro",
+          "ru": "плечо",
+          "example": "Le duele el hombro."
+        },
+        {
+          "es": "brazo",
+          "ru": "рука (от плеча)",
+          "example": "Se rompió el brazo."
+        },
+        {
+          "es": "mano",
+          "ru": "рука (кисть)",
+          "example": "Lávate las manos."
+        },
+        {
+          "es": "dedo",
+          "ru": "палец",
+          "example": "Me corté el dedo."
+        },
+        {
+          "es": "pierna",
+          "ru": "нога",
+          "example": "Le duele la pierna."
+        },
+        {
+          "es": "pie",
+          "ru": "ступня",
+          "example": "Me duelen los pies."
+        },
+        {
+          "es": "rodilla",
+          "ru": "колено",
+          "example": "Se cayó y se hizo daño en la rodilla."
+        },
+        {
+          "es": "espalda",
+          "ru": "спина",
+          "example": "Me duele la espalda."
+        },
+        {
+          "es": "corazón",
+          "ru": "сердце",
+          "example": "El corazón late rápido."
+        },
+        {
+          "es": "estómago",
+          "ru": "желудок / живот",
+          "example": "Me duele el estómago."
+        },
+        {
+          "es": "piel",
+          "ru": "кожа",
+          "example": "Tiene la piel suave."
+        },
+        {
+          "es": "alto",
+          "ru": "высокий",
+          "example": "Mi hermano es muy alto."
+        },
+        {
+          "es": "bajo",
+          "ru": "низкий (о росте)",
+          "example": "Ella es baja."
+        },
+        {
+          "es": "delgado",
+          "ru": "худой",
+          "example": "Está muy delgado."
+        },
+        {
+          "es": "gordo",
+          "ru": "полный / толстый",
+          "example": "El gato está un poco gordo."
+        },
+        {
+          "es": "fuerte",
+          "ru": "сильный",
+          "example": "Es un hombre fuerte."
+        },
+        {
+          "es": "joven",
+          "ru": "молодой",
+          "example": "Es muy joven todavía."
+        },
+        {
+          "es": "viejo",
+          "ru": "старый",
+          "example": "Mi abuelo es viejo."
+        },
+        {
+          "es": "guapo",
+          "ru": "красивый (о человеке)",
+          "example": "Es un chico muy guapo."
+        },
+        {
+          "es": "barba",
+          "ru": "борода",
+          "example": "Se ha dejado barba."
+        }
+      ]
+    },
+    "emociones": {
+      "title": "😊 Эмоции и характер",
+      "premium": true,
+      "words": [
+        {
+          "es": "feliz",
+          "ru": "счастливый",
+          "example": "Hoy estoy muy feliz."
+        },
+        {
+          "es": "triste",
+          "ru": "грустный",
+          "example": "Está triste por la noticia."
+        },
+        {
+          "es": "contento",
+          "ru": "довольный",
+          "example": "Estoy contento con el resultado."
+        },
+        {
+          "es": "enfadado",
+          "ru": "сердитый",
+          "example": "Está enfadado conmigo."
+        },
+        {
+          "es": "cansado",
+          "ru": "уставший",
+          "example": "Estoy muy cansado hoy."
+        },
+        {
+          "es": "nervioso",
+          "ru": "нервный / взволнованный",
+          "example": "Está nervioso antes del examen."
+        },
+        {
+          "es": "tranquilo",
+          "ru": "спокойный",
+          "example": "Mantén la calma, estate tranquilo."
+        },
+        {
+          "es": "asustado",
+          "ru": "испуганный",
+          "example": "El niño está asustado."
+        },
+        {
+          "es": "sorprendido",
+          "ru": "удивлённый",
+          "example": "Me quedé sorprendido."
+        },
+        {
+          "es": "aburrido",
+          "ru": "скучающий",
+          "example": "Estoy aburrido en casa."
+        },
+        {
+          "es": "preocupado",
+          "ru": "обеспокоенный",
+          "example": "Está preocupada por su hijo."
+        },
+        {
+          "es": "orgulloso",
+          "ru": "гордый",
+          "example": "Estoy orgulloso de ti."
+        },
+        {
+          "es": "miedo",
+          "ru": "страх",
+          "example": "Tengo miedo a la oscuridad."
+        },
+        {
+          "es": "alegría",
+          "ru": "радость",
+          "example": "Sentí una gran alegría."
+        },
+        {
+          "es": "amor",
+          "ru": "любовь",
+          "example": "El amor lo puede todo."
+        },
+        {
+          "es": "risa",
+          "ru": "смех",
+          "example": "No pude contener la risa."
+        },
+        {
+          "es": "amable",
+          "ru": "любезный / добрый",
+          "example": "Es una persona muy amable."
+        },
+        {
+          "es": "simpático",
+          "ru": "приятный / милый",
+          "example": "Tu amigo es muy simpático."
+        },
+        {
+          "es": "serio",
+          "ru": "серьёзный",
+          "example": "Es un hombre serio."
+        },
+        {
+          "es": "tímido",
+          "ru": "застенчивый",
+          "example": "El niño es un poco tímido."
+        },
+        {
+          "es": "valiente",
+          "ru": "смелый",
+          "example": "Fue muy valiente."
+        },
+        {
+          "es": "honesto",
+          "ru": "честный",
+          "example": "Es una persona honesta."
+        },
+        {
+          "es": "generoso",
+          "ru": "щедрый",
+          "example": "Es muy generoso con todos."
+        },
+        {
+          "es": "paciente",
+          "ru": "терпеливый",
+          "example": "Hay que ser paciente."
+        },
+        {
+          "es": "inteligente",
+          "ru": "умный",
+          "example": "Es una niña muy inteligente."
+        },
+        {
+          "es": "perezoso",
+          "ru": "ленивый",
+          "example": "Hoy me siento perezoso."
+        },
+        {
+          "es": "celoso",
+          "ru": "ревнивый",
+          "example": "Se puso celoso."
+        },
+        {
+          "es": "sentir",
+          "ru": "чувствовать",
+          "example": "Siento mucho frío."
+        },
+        {
+          "es": "reír",
+          "ru": "смеяться",
+          "example": "Nos hizo reír mucho."
+        },
+        {
+          "es": "llorar",
+          "ru": "плакать",
+          "example": "El bebé empezó a llorar."
+        }
+      ]
+    },
+    "hogar": {
+      "title": "🛋️ Мебель и кухня",
+      "premium": true,
+      "words": [
+        {
+          "es": "mesa",
+          "ru": "стол",
+          "example": "Pon los platos en la mesa."
+        },
+        {
+          "es": "silla",
+          "ru": "стул",
+          "example": "Siéntate en la silla."
+        },
+        {
+          "es": "sofá",
+          "ru": "диван",
+          "example": "Descanso en el sofá."
+        },
+        {
+          "es": "cama",
+          "ru": "кровать",
+          "example": "Voy a la cama temprano."
+        },
+        {
+          "es": "armario",
+          "ru": "шкаф",
+          "example": "La ropa está en el armario."
+        },
+        {
+          "es": "estantería",
+          "ru": "полка / стеллаж",
+          "example": "Los libros están en la estantería."
+        },
+        {
+          "es": "lámpara",
+          "ru": "лампа",
+          "example": "Enciende la lámpara."
+        },
+        {
+          "es": "espejo",
+          "ru": "зеркало",
+          "example": "Se mira en el espejo."
+        },
+        {
+          "es": "puerta",
+          "ru": "дверь",
+          "example": "Cierra la puerta, por favor."
+        },
+        {
+          "es": "ventana",
+          "ru": "окно",
+          "example": "Abre la ventana."
+        },
+        {
+          "es": "cocina",
+          "ru": "кухня",
+          "example": "Preparo la cena en la cocina."
+        },
+        {
+          "es": "nevera",
+          "ru": "холодильник",
+          "example": "La leche está en la nevera."
+        },
+        {
+          "es": "horno",
+          "ru": "духовка",
+          "example": "El pan está en el horno."
+        },
+        {
+          "es": "plato",
+          "ru": "тарелка",
+          "example": "Lava los platos."
+        },
+        {
+          "es": "vaso",
+          "ru": "стакан",
+          "example": "Quiero un vaso de agua."
+        },
+        {
+          "es": "taza",
+          "ru": "чашка",
+          "example": "Una taza de café, por favor."
+        },
+        {
+          "es": "cuchara",
+          "ru": "ложка",
+          "example": "Necesito una cuchara para la sopa."
+        },
+        {
+          "es": "tenedor",
+          "ru": "вилка",
+          "example": "Come con el tenedor."
+        },
+        {
+          "es": "cuchillo",
+          "ru": "нож",
+          "example": "Corta el pan con el cuchillo."
+        },
+        {
+          "es": "sartén",
+          "ru": "сковорода",
+          "example": "Fríe los huevos en la sartén."
+        },
+        {
+          "es": "olla",
+          "ru": "кастрюля",
+          "example": "La sopa está en la olla."
+        },
+        {
+          "es": "baño",
+          "ru": "ванная / туалет",
+          "example": "¿Dónde está el baño?"
+        },
+        {
+          "es": "ducha",
+          "ru": "душ",
+          "example": "Me doy una ducha por la mañana."
+        },
+        {
+          "es": "toalla",
+          "ru": "полотенце",
+          "example": "Necesito una toalla limpia."
+        },
+        {
+          "es": "jabón",
+          "ru": "мыло",
+          "example": "No hay jabón en el baño."
+        },
+        {
+          "es": "llave",
+          "ru": "ключ",
+          "example": "No encuentro las llaves."
+        },
+        {
+          "es": "suelo",
+          "ru": "пол",
+          "example": "El suelo está limpio."
+        },
+        {
+          "es": "pared",
+          "ru": "стена",
+          "example": "Hay un cuadro en la pared."
+        },
+        {
+          "es": "techo",
+          "ru": "потолок",
+          "example": "La lámpara cuelga del techo."
+        },
+        {
+          "es": "mueble",
+          "ru": "мебель (предмет)",
+          "example": "Compramos un mueble nuevo."
+        }
+      ]
+    },
+    "calendario": {
+      "title": "📅 Дни, месяцы, распорядок",
+      "premium": true,
+      "words": [
+        {
+          "es": "lunes",
+          "ru": "понедельник",
+          "example": "El lunes empiezo a trabajar."
+        },
+        {
+          "es": "martes",
+          "ru": "вторник",
+          "example": "El martes tengo clase."
+        },
+        {
+          "es": "miércoles",
+          "ru": "среда",
+          "example": "Nos vemos el miércoles."
+        },
+        {
+          "es": "jueves",
+          "ru": "четверг",
+          "example": "El jueves voy al médico."
+        },
+        {
+          "es": "viernes",
+          "ru": "пятница",
+          "example": "El viernes salgo con amigos."
+        },
+        {
+          "es": "sábado",
+          "ru": "суббота",
+          "example": "El sábado descanso."
+        },
+        {
+          "es": "domingo",
+          "ru": "воскресенье",
+          "example": "El domingo visito a mi familia."
+        },
+        {
+          "es": "enero",
+          "ru": "январь",
+          "example": "Mi cumpleaños es en enero."
+        },
+        {
+          "es": "febrero",
+          "ru": "февраль",
+          "example": "Febrero es un mes corto."
+        },
+        {
+          "es": "marzo",
+          "ru": "март",
+          "example": "En marzo llega la primavera."
+        },
+        {
+          "es": "abril",
+          "ru": "апрель",
+          "example": "En abril llueve mucho."
+        },
+        {
+          "es": "mayo",
+          "ru": "май",
+          "example": "Las flores salen en mayo."
+        },
+        {
+          "es": "junio",
+          "ru": "июнь",
+          "example": "En junio empieza el verano."
+        },
+        {
+          "es": "julio",
+          "ru": "июль",
+          "example": "En julio hace mucho calor."
+        },
+        {
+          "es": "agosto",
+          "ru": "август",
+          "example": "En agosto tengo vacaciones."
+        },
+        {
+          "es": "septiembre",
+          "ru": "сентябрь",
+          "example": "En septiembre empieza el curso."
+        },
+        {
+          "es": "octubre",
+          "ru": "октябрь",
+          "example": "En octubre caen las hojas."
+        },
+        {
+          "es": "noviembre",
+          "ru": "ноябрь",
+          "example": "Noviembre es un mes frío."
+        },
+        {
+          "es": "diciembre",
+          "ru": "декабрь",
+          "example": "En diciembre es Navidad."
+        },
+        {
+          "es": "día",
+          "ru": "день",
+          "example": "Hoy es un buen día."
+        },
+        {
+          "es": "semana",
+          "ru": "неделя",
+          "example": "La semana tiene siete días."
+        },
+        {
+          "es": "mes",
+          "ru": "месяц",
+          "example": "El mes que viene viajo."
+        },
+        {
+          "es": "año",
+          "ru": "год",
+          "example": "Feliz año nuevo."
+        },
+        {
+          "es": "hoy",
+          "ru": "сегодня",
+          "example": "Hoy tengo mucho trabajo."
+        },
+        {
+          "es": "mañana",
+          "ru": "завтра",
+          "example": "Mañana es fiesta."
+        },
+        {
+          "es": "ayer",
+          "ru": "вчера",
+          "example": "Ayer llovió todo el día."
+        },
+        {
+          "es": "fin de semana",
+          "ru": "выходные",
+          "example": "El fin de semana descanso."
+        },
+        {
+          "es": "temprano",
+          "ru": "рано",
+          "example": "Me levanto temprano."
+        },
+        {
+          "es": "tarde",
+          "ru": "поздно",
+          "example": "Llegó tarde a la reunión."
+        },
+        {
+          "es": "estación",
+          "ru": "время года",
+          "example": "El otoño es mi estación favorita."
+        }
+      ]
+    },
+    "verbos2": {
+      "title": "🏃 Глаголы: ещё нужные",
+      "premium": true,
+      "words": [
+        {
+          "es": "empezar",
+          "ru": "начинать",
+          "example": "Vamos a empezar la clase."
+        },
+        {
+          "es": "terminar",
+          "ru": "заканчивать",
+          "example": "Terminé el trabajo."
+        },
+        {
+          "es": "abrir",
+          "ru": "открывать",
+          "example": "Abre la puerta."
+        },
+        {
+          "es": "cerrar",
+          "ru": "закрывать",
+          "example": "Cierra la ventana."
+        },
+        {
+          "es": "comprar",
+          "ru": "покупать",
+          "example": "Voy a comprar pan."
+        },
+        {
+          "es": "vender",
+          "ru": "продавать",
+          "example": "Venden fruta en el mercado."
+        },
+        {
+          "es": "pagar",
+          "ru": "платить",
+          "example": "Pago con tarjeta."
+        },
+        {
+          "es": "buscar",
+          "ru": "искать",
+          "example": "Busco mis llaves."
+        },
+        {
+          "es": "encontrar",
+          "ru": "находить",
+          "example": "No encuentro el móvil."
+        },
+        {
+          "es": "esperar",
+          "ru": "ждать",
+          "example": "Te espero en la puerta."
+        },
+        {
+          "es": "llamar",
+          "ru": "звонить",
+          "example": "Te llamo esta noche."
+        },
+        {
+          "es": "escuchar",
+          "ru": "слушать",
+          "example": "Escucho música."
+        },
+        {
+          "es": "mirar",
+          "ru": "смотреть",
+          "example": "Mira esa foto."
+        },
+        {
+          "es": "leer",
+          "ru": "читать",
+          "example": "Leo un libro cada mes."
+        },
+        {
+          "es": "escribir",
+          "ru": "писать",
+          "example": "Escribo una carta."
+        },
+        {
+          "es": "aprender",
+          "ru": "учиться / узнавать",
+          "example": "Aprendo español."
+        },
+        {
+          "es": "enseñar",
+          "ru": "учить (кого-то) / показывать",
+          "example": "Ella enseña matemáticas."
+        },
+        {
+          "es": "trabajar",
+          "ru": "работать",
+          "example": "Trabajo en una oficina."
+        },
+        {
+          "es": "viajar",
+          "ru": "путешествовать",
+          "example": "Me gusta viajar."
+        },
+        {
+          "es": "caminar",
+          "ru": "ходить пешком",
+          "example": "Camino al trabajo."
+        },
+        {
+          "es": "correr",
+          "ru": "бегать",
+          "example": "Corro por las mañanas."
+        },
+        {
+          "es": "dormir",
+          "ru": "спать",
+          "example": "Duermo ocho horas."
+        },
+        {
+          "es": "despertar",
+          "ru": "будить / просыпаться",
+          "example": "Me despierto a las siete."
+        },
+        {
+          "es": "jugar",
+          "ru": "играть",
+          "example": "Los niños juegan en el parque."
+        },
+        {
+          "es": "ayudar",
+          "ru": "помогать",
+          "example": "¿Me puedes ayudar?"
+        },
+        {
+          "es": "necesitar",
+          "ru": "нуждаться",
+          "example": "Necesito tu ayuda."
+        },
+        {
+          "es": "usar",
+          "ru": "использовать",
+          "example": "Uso el ordenador a diario."
+        },
+        {
+          "es": "cambiar",
+          "ru": "менять",
+          "example": "Quiero cambiar de trabajo."
+        },
+        {
+          "es": "recordar",
+          "ru": "помнить",
+          "example": "No recuerdo su nombre."
+        },
+        {
+          "es": "olvidar",
+          "ru": "забывать",
+          "example": "Olvidé las llaves en casa."
         }
       ]
     }
