@@ -44,6 +44,13 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error(err);
     });
 
+  // Разделяем эмодзи и текст в названии темы
+  function splitEmoji(title) {
+    const m = title.match(/^(\p{Extended_Pictographic}(?:\u200d\p{Extended_Pictographic})*(?:\uFE0F)?)\s*(.*)$/u);
+    if (m) return { emoji: m[1], text: m[2] };
+    return { emoji: '📚', text: title };
+  }
+
   // ===== ОТРИСОВКА ТЕМ =====
   function renderTopics() {
     topicsGrid.innerHTML = '';
@@ -53,12 +60,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const locked = topic.premium && !isPremium();
       if (locked) {
         card.classList.add('locked');
-        card.innerHTML = `<strong>${topic.title}</strong><small>${topic.words.length} слов</small><span class="lock-badge">Премиум</span>`;
+        const e1 = splitEmoji(topic.title);
+        card.innerHTML = `<span class="topic-emoji">${e1.emoji}</span><strong>${e1.text}</strong><small>${topic.words.length} слов</small><span class="lock-badge">🔒 Премиум</span>`;
         // Клик по замку — открываем окно премиума (а не просто alert)
         card.addEventListener('click', openPremiumModal);
       } else {
+        const e2 = splitEmoji(topic.title);
         const badge = topic.premium ? '' : '<span class="free-badge">Бесплатно</span>';
-        card.innerHTML = `<strong>${topic.title}</strong><small>${topic.words.length} слов</small>${badge}`;
+        card.innerHTML = `<span class="topic-emoji">${e2.emoji}</span><strong>${e2.text}</strong><small>${topic.words.length} слов</small>${badge}`;
         card.addEventListener('click', () => startStudy(key));
       }
       topicsGrid.appendChild(card);
