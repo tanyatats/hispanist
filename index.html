@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hispanist – Учим испанский</title>
+  <title>Hispanist — Учим испанский по карточкам</title>
+  <meta name="description" content="Учите испанские слова по карточкам с озвучкой и умным повторением. 200 слов бесплатно, полный курс — по премиум-доступу.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,17 +19,39 @@
         <p class="desc">Выберите тему, чтобы начать тренировку</p>
       </div>
       <div id="topics-grid"></div>
-      <button id="go-premium" class="btn-premium">🌟 Премиум доступ</button>
+      <button id="go-premium" class="btn-premium">🌟 Открыть все темы — Премиум</button>
     </div>
 
     <!-- Модальное окно ввода кода -->
     <div id="premium-modal" class="modal hidden">
       <div class="modal-content">
-        <h2>Введите код доступа</h2>
-        <input type="text" id="premium-code" placeholder="Ваш код">
+        <h2>🌟 Премиум-доступ</h2>
+        <ul class="premium-perks">
+          <li><span class="chk">✓</span> Все 10 тем и 500 слов — от приветствий до свободного общения</li>
+          <li><span class="chk">✓</span> Озвучка носителя и умное повторение слов</li>
+          <li><span class="chk">✓</span> Доступ на 30 дней, занимайтесь в своём темпе</li>
+        </ul>
+        <input type="text" id="premium-code" placeholder="Введите код доступа">
         <button id="activate-premium" class="btn-primary">Активировать</button>
         <button id="close-modal" class="btn-text">Закрыть</button>
         <p id="premium-message"></p>
+      </div>
+    </div>
+
+    <!-- Триггерный экран (после бесплатной темы) -->
+    <div id="celebrate-screen" class="hidden">
+      <div class="celebrate-card">
+        <div class="emoji">🎉</div>
+        <h2>¡Muy bien! Тема пройдена!</h2>
+        <p>Вы отлично поработали и делаете реальные успехи в испанском.</p>
+        <div class="stat-line" id="celebrate-stat">Так держать!</div>
+        <ul class="celebrate-perks">
+          <li><span class="i">📚</span> Ещё 6 тем и 300 новых слов ждут вас</li>
+          <li><span class="i">✈️</span> Путешествия, работа, здоровье — всё для жизни</li>
+          <li><span class="i">🗣️</span> Заговорите свободно, а не только здоровайтесь</li>
+        </ul>
+        <button id="celebrate-premium" class="btn-white">🌟 Открыть все темы</button>
+        <button id="celebrate-skip" class="btn-skip">Позже, вернуться к темам</button>
       </div>
     </div>
 
@@ -34,8 +59,10 @@
     <div id="study-screen" class="hidden">
       <button id="back-btn" class="btn-back">← Назад к темам</button>
       <h2 id="topic-title" class="topic-heading"></h2>
-      <div id="progress" class="progress-badge">Слов сегодня: <span id="studied-count">0</span></div>
-      
+      <div class="progress-wrap">
+        <div id="progress" class="progress-badge">Слов сегодня: <span id="studied-count">0</span></div>
+      </div>
+
       <div id="card-container" class="card-scene">
         <div id="flashcard">
           <div class="front"><span id="word-es"></span></div>
@@ -55,6 +82,7 @@
     </div>
   </div>
 
+  <canvas id="confettiCanvas" style="position:fixed; inset:0; width:100%; height:100%; pointer-events:none; z-index:9999;"></canvas>
   <script src="app.js"></script>
 </body>
 </html>
