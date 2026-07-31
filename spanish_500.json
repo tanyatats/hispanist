@@ -1,27 +1,676 @@
-"naturaleza": {
-  "title": "🌿 Природа",
-  "words": [
-    { "es": "el árbol", "ru": "дерево", "example": "El árbol es alto." },
-    { "es": "la flor", "ru": "цветок", "example": "La flor es bonita." },
-    { "es": "el río", "ru": "река", "example": "El río fluye." },
-    { "es": "la montaña", "ru": "гора", "example": "Escalamos la montaña." },
-    { "es": "el mar", "ru": "море", "example": "El mar es azul." },
-    { "es": "el cielo", "ru": "небо", "example": "El cielo está nublado." },
-    { "es": "la estrella", "ru": "звезда", "example": "Las estrellas brillan." },
-    { "es": "la luna", "ru": "луна", "example": "La luna está llena." },
-    { "es": "el sol", "ru": "солнце", "example": "El sol calienta." },
-    { "es": "la lluvia", "ru": "дождь", "example": "La lluvia moja." },
-    { "es": "la nieve", "ru": "снег", "example": "La nieve es blanca." },
-    { "es": "el viento", "ru": "ветер", "example": "El viento sopla." },
-    { "es": "la hoja", "ru": "лист", "example": "La hoja cae." },
-    { "es": "la rama", "ru": "ветка", "example": "La rama se rompe." },
-    { "es": "la piedra", "ru": "камень", "example": "La piedra es dura." },
-    { "es": "la arena", "ru": "песок", "example": "La arena está caliente." },
-    { "es": "la ola", "ru": "волна", "example": "La ola es grande." },
-    { "es": "el bosque", "ru": "лес", "example": "Caminamos por el bosque." },
-    { "es": "el jardín", "ru": "сад", "example": "El jardín florece." },
-    { "es": "la hierba", "ru": "трава", "example": "La hierba es verde." }
-    // ... ещё 30 сгенерированных слов вида { "es": "extra_nat_21", "ru": "доп. слово 21", "example": "Ejemplo 21" }
-  ],
-  "premium": true
-}
+document.addEventListener('DOMContentLoaded', () => {
+  // --- DOM элементы ---
+  const homeScreen = document.getElementById('home-screen');
+  const studyScreen = document.getElementById('study-screen');
+  const celebrateScreen = document.getElementById('celebrate-screen');
+  const topicsGrid = document.getElementById('topics-grid');
+  const backBtn = document.getElementById('back-btn');
+  const topicTitle = document.getElementById('topic-title');
+  const studiedCount = document.getElementById('studied-count');
+  const flashcard = document.getElementById('flashcard');
+  const flipBtn = document.getElementById('flip-btn');
+  const againBtn = document.getElementById('again-btn');
+  const goodBtn = document.getElementById('good-btn');
+  const speakBtn = document.getElementById('speak-btn');
+  const wordEs = document.getElementById('word-es');
+  const wordRu = document.getElementById('word-ru');
+  const example = document.getElementById('example');
+  const premiumModal = document.getElementById('premium-modal');
+  const goPremiumBtn = document.getElementById('go-premium');
+  const activateBtn = document.getElementById('activate-premium');
+  const closeModal = document.getElementById('close-modal');
+  const premiumMessage = document.getElementById('premium-message');
+  const premiumCodeInput = document.getElementById('premium-code');
+  const celebrateStat = document.getElementById('celebrate-stat');
+  const celebratePremiumBtn = document.getElementById('celebrate-premium');
+  const celebrateSkipBtn = document.getElementById('celebrate-skip');
+
+  // --- Глобальные переменные ---
+  let allTopics = {};
+  let currentTopicKey = '';
+  let currentWords = [];
+  let dueWords = [];
+  let currentIndex = 0;
+  let isFlipping = false;
+
+  // ===== ФУНКЦИЯ РАСШИРЕНИЯ ДО 1500 СЛОВ =====
+  function expandTo1500(data) {
+    const temas = data.temas;
+    const newThemes = {
+      naturaleza: {
+        title: "🌿 Природа",
+        words: [
+          { es: "el árbol", ru: "дерево", example: "El árbol es alto." },
+          { es: "la flor", ru: "цветок", example: "La flor es bonita." },
+          { es: "el río", ru: "река", example: "El río fluye." },
+          { es: "la montaña", ru: "гора", example: "Escalamos la montaña." },
+          { es: "el mar", ru: "море", example: "El mar es azul." },
+          { es: "el cielo", ru: "небо", example: "El cielo está nublado." },
+          { es: "la estrella", ru: "звезда", example: "Las estrellas brillan." },
+          { es: "la luna", ru: "луна", example: "La luna está llena." },
+          { es: "el sol", ru: "солнце", example: "El sol calienta." },
+          { es: "la lluvia", ru: "дождь", example: "La lluvia moja." },
+          { es: "la nieve", ru: "снег", example: "La nieve es blanca." },
+          { es: "el viento", ru: "ветер", example: "El viento sopla." },
+          { es: "la hoja", ru: "лист", example: "La hoja cae." },
+          { es: "la rama", ru: "ветка", example: "La rama se rompe." },
+          { es: "la piedra", ru: "камень", example: "La piedra es dura." },
+          { es: "la arena", ru: "песок", example: "La arena está caliente." },
+          { es: "la ola", ru: "волна", example: "La ola es grande." },
+          { es: "el bosque", ru: "лес", example: "Caminamos por el bosque." },
+          { es: "el jardín", ru: "сад", example: "El jardín florece." },
+          { es: "la hierba", ru: "трава", example: "La hierba es verde." }
+        ],
+        premium: true
+      },
+      ciudad: {
+        title: "🏙️ Город",
+        words: [
+          { es: "la ciudad", ru: "город", example: "Vivo en una ciudad grande." },
+          { es: "la calle", ru: "улица", example: "Camino por la calle." },
+          { es: "la plaza", ru: "площадь", example: "La plaza está llena." },
+          { es: "el edificio", ru: "здание", example: "El edificio es alto." },
+          { es: "el semáforo", ru: "светофор", example: "El semáforo está rojo." },
+          { es: "el banco", ru: "банк", example: "Voy al banco." },
+          { es: "la tienda", ru: "магазин", example: "Compro en la tienda." },
+          { es: "el mercado", ru: "рынок", example: "El mercado está cerca." },
+          { es: "la biblioteca", ru: "библиотека", example: "Estudio en la biblioteca." },
+          { es: "el cine", ru: "кинотеатр", example: "Voy al cine." },
+          { es: "el teatro", ru: "театр", example: "El teatro es antiguo." },
+          { es: "el museo", ru: "музей", example: "Visito el museo." },
+          { es: "el parque", ru: "парк", example: "Paseo por el parque." },
+          { es: "la estación", ru: "вокзал", example: "La estación está lejos." },
+          { es: "el aeropuerto", ru: "аэропорт", example: "Llegamos al aeropuerto." },
+          { es: "el puente", ru: "мост", example: "El puente es largo." },
+          { es: "la fuente", ru: "фонтан", example: "La fuente es bonita." },
+          { es: "el rascacielos", ru: "небоскрёб", example: "El rascacielos es moderno." },
+          { es: "el barrio", ru: "район", example: "Vivo en un barrio tranquilo." },
+          { es: "la avenida", ru: "проспект", example: "La avenida es ancha." }
+        ],
+        premium: true
+      },
+      arte: {
+        title: "🎨 Искусство",
+        words: [
+          { es: "el arte", ru: "искусство", example: "El arte es bello." },
+          { es: "el cuadro", ru: "картина", example: "El cuadro es famoso." },
+          { es: "la pintura", ru: "живопись", example: "La pintura es colorida." },
+          { es: "el escultor", ru: "скульптор", example: "El escultor crea estatuas." },
+          { es: "la escultura", ru: "скульптура", example: "La escultura es moderna." },
+          { es: "el museo", ru: "музей", example: "Visitamos el museo." },
+          { es: "la exposición", ru: "выставка", example: "La exposición es interesante." },
+          { es: "el artista", ru: "художник", example: "El artista pinta." },
+          { es: "el dibujo", ru: "рисунок", example: "El dibujo es detallado." },
+          { es: "la fotografía", ru: "фотография", example: "La fotografía es hermosa." },
+          { es: "la música", ru: "музыка", example: "La música clásica." },
+          { es: "el concierto", ru: "концерт", example: "Voy al concierto." },
+          { es: "la obra", ru: "произведение", example: "La obra es famosa." },
+          { es: "el poema", ru: "стихотворение", example: "El poema es romántico." },
+          { es: "el escritor", ru: "писатель", example: "El escritor es conocido." },
+          { es: "la literatura", ru: "литература", example: "Me gusta la literatura." },
+          { es: "el teatro", ru: "театр", example: "El teatro está lleno." },
+          { es: "la danza", ru: "танец", example: "La danza es elegante." },
+          { es: "el cine", ru: "кино", example: "El cine es mi pasión." },
+          { es: "la actuación", ru: "актёрское мастерство", example: "La actuación es excelente." }
+        ],
+        premium: true
+      },
+      deporte: {
+        title: "⚽ Спорт",
+        words: [
+          { es: "el deporte", ru: "спорт", example: "El deporte es saludable." },
+          { es: "el fútbol", ru: "футбол", example: "Juego al fútbol." },
+          { es: "el baloncesto", ru: "баскетбол", example: "El baloncesto es popular." },
+          { es: "el tenis", ru: "теннис", example: "Juego al tenis." },
+          { es: "el atletismo", ru: "атлетика", example: "El atletismo es exigente." },
+          { es: "la natación", ru: "плавание", example: "La natación es refrescante." },
+          { es: "el ciclismo", ru: "велоспорт", example: "El ciclismo es emocionante." },
+          { es: "el gimnasio", ru: "спортзал", example: "Voy al gimnasio." },
+          { es: "el equipo", ru: "команда", example: "Nuestro equipo ganó." },
+          { es: "el partido", ru: "матч", example: "El partido es hoy." },
+          { es: "el entrenador", ru: "тренер", example: "El entrenador es estricto." },
+          { es: "el jugador", ru: "игрок", example: "El jugador es rápido." },
+          { es: "el deportista", ru: "спортсмен", example: "El deportista es famoso." },
+          { es: "la competición", ru: "соревнование", example: "La competición es dura." },
+          { es: "el campeón", ru: "чемпион", example: "El campeón es español." },
+          { es: "el trofeo", ru: "трофей", example: "Ganamos el trofeo." },
+          { es: "la cancha", ru: "поле", example: "La cancha está en buen estado." },
+          { es: "la pelota", ru: "мяч", example: "La pelota es de fútbol." },
+          { es: "el gol", ru: "гол", example: "¡Gol! ¡Qué golazo!" },
+          { es: "el árbitro", ru: "судья", example: "El árbitro pitó." }
+        ],
+        premium: true
+      },
+      tecnologia: {
+        title: "💻 Технологии",
+        words: [
+          { es: "la tecnología", ru: "технологии", example: "La tecnología avanza." },
+          { es: "el ordenador", ru: "компьютер", example: "Uso el ordenador." },
+          { es: "el teléfono", ru: "телефон", example: "El teléfono suena." },
+          { es: "la tableta", ru: "планшет", example: "Leo en la tableta." },
+          { es: "el internet", ru: "интернет", example: "El internet es rápido." },
+          { es: "la red", ru: "сеть", example: "La red social." },
+          { es: "el correo electrónico", ru: "электронная почта", example: "Envío un correo." },
+          { es: "la aplicación", ru: "приложение", example: "Descargo una aplicación." },
+          { es: "el software", ru: "программное обеспечение", example: "El software es útil." },
+          { es: "el hardware", ru: "аппаратное обеспечение", example: "El hardware es caro." },
+          { es: "la inteligencia artificial", ru: "искусственный интеллект", example: "La IA está de moda." },
+          { es: "la robótica", ru: "робототехника", example: "La robótica es fascinante." },
+          { es: "el dato", ru: "данные", example: "Los datos son importantes." },
+          { es: "la nube", ru: "облако", example: "Guardo en la nube." },
+          { es: "la impresora", ru: "принтер", example: "La impresora no funciona." },
+          { es: "el escáner", ru: "сканер", example: "Escaneo el documento." },
+          { es: "la cámara", ru: "камера", example: "La cámara es digital." },
+          { es: "el video", ru: "видео", example: "Veo un video." },
+          { es: "la pantalla", ru: "экран", example: "La pantalla es táctil." },
+          { es: "el teclado", ru: "клавиатура", example: "El teclado es inalámbrico." }
+        ],
+        premium: true
+      },
+      educacion: {
+        title: "📚 Образование",
+        words: [
+          { es: "la educación", ru: "образование", example: "La educación es clave." },
+          { es: "la escuela", ru: "школа", example: "Voy a la escuela." },
+          { es: "el colegio", ru: "колледж", example: "El colegio es privado." },
+          { es: "la universidad", ru: "университет", example: "Estudio en la universidad." },
+          { es: "el profesor", ru: "учитель", example: "El profesor explica." },
+          { es: "el estudiante", ru: "студент", example: "El estudiante estudia." },
+          { es: "la clase", ru: "класс", example: "La clase es interesante." },
+          { es: "el examen", ru: "экзамен", example: "Tengo un examen." },
+          { es: "la nota", ru: "оценка", example: "La nota es buena." },
+          { es: "el libro", ru: "книга", example: "Leo un libro." },
+          { es: "el cuaderno", ru: "тетрадь", example: "Escribo en el cuaderno." },
+          { es: "el lápiz", ru: "карандаш", example: "El lápiz es de grafito." },
+          { es: "el bolígrafo", ru: "ручка", example: "El bolígrafo es azul." },
+          { es: "la lección", ru: "урок", example: "La lección es fácil." },
+          { es: "la tarea", ru: "домашнее задание", example: "Hago la tarea." },
+          { es: "el curso", ru: "курс", example: "El curso dura tres meses." },
+          { es: "el diploma", ru: "диплом", example: "Recibo el diploma." },
+          { es: "la biblioteca", ru: "библиотека", example: "Estudio en la biblioteca." },
+          { es: "el laboratorio", ru: "лаборатория", example: "El laboratorio está equipado." },
+          { es: "la investigación", ru: "исследование", example: "La investigación es importante." }
+        ],
+        premium: true
+      },
+      sentimientos: {
+        title: "❤️ Чувства",
+        words: [
+          { es: "el amor", ru: "любовь", example: "El amor es hermoso." },
+          { es: "la amistad", ru: "дружба", example: "La amistad es valiosa." },
+          { es: "la alegría", ru: "радость", example: "La alegría contagia." },
+          { es: "la tristeza", ru: "печаль", example: "La tristeza pasará." },
+          { es: "el miedo", ru: "страх", example: "El miedo me paraliza." },
+          { es: "la ira", ru: "гнев", example: "La ira es destructiva." },
+          { es: "la sorpresa", ru: "удивление", example: "La sorpresa fue grande." },
+          { es: "el odio", ru: "ненависть", example: "El odio no es bueno." },
+          { es: "la felicidad", ru: "счастье", example: "La felicidad es un estado." },
+          { es: "la confianza", ru: "доверие", example: "Tengo confianza en ti." },
+          { es: "la esperanza", ru: "надежда", example: "La esperanza no se pierde." },
+          { es: "el orgullo", ru: "гордость", example: "El orgullo es malo." },
+          { es: "la envidia", ru: "зависть", example: "La envidia es fea." },
+          { es: "la paciencia", ru: "терпение", example: "La paciencia es una virtud." },
+          { es: "la gratitud", ru: "благодарность", example: "La gratitud es un sentimiento." },
+          { es: "la ternura", ru: "нежность", example: "La ternura es dulce." },
+          { es: "el respeto", ru: "уважение", example: "El respeto es mutuo." },
+          { es: "el cariño", ru: "привязанность", example: "El cariño es sincero." },
+          { es: "la nostalgia", ru: "ностальгия", example: "La nostalgia me invade." },
+          { es: "la ilusión", ru: "иллюзия", example: "La ilusión me motiva." }
+        ],
+        premium: true
+      },
+      clima: {
+        title: "🌤️ Погода",
+        words: [
+          { es: "el clima", ru: "климат", example: "El clima es tropical." },
+          { es: "el tiempo", ru: "погода", example: "El tiempo está bueno." },
+          { es: "la temperatura", ru: "температура", example: "La temperatura sube." },
+          { es: "el calor", ru: "жара", example: "Hace calor." },
+          { es: "el frío", ru: "холод", example: "Hace frío." },
+          { es: "la lluvia", ru: "дождь", example: "Está lloviendo." },
+          { es: "la nieve", ru: "снег", example: "Está nevando." },
+          { es: "el viento", ru: "ветер", example: "Hay mucho viento." },
+          { es: "la tormenta", ru: "гроза", example: "La tormenta es fuerte." },
+          { es: "el relámpago", ru: "молния", example: "El relámpago ilumina." },
+          { es: "el trueno", ru: "гром", example: "El trueno es ruidoso." },
+          { es: "el arcoíris", ru: "радуга", example: "El arcoíris es colorido." },
+          { es: "la humedad", ru: "влажность", example: "La humedad es alta." },
+          { es: "la presión", ru: "давление", example: "La presión baja." },
+          { es: "el pronóstico", ru: "прогноз", example: "El pronóstico es bueno." },
+          { es: "la nube", ru: "облако", example: "Las nubes cubren el cielo." },
+          { es: "el sol", ru: "солнце", example: "El sol brilla." },
+          { es: "la sombra", ru: "тень", example: "Busco sombra." },
+          { es: "el termómetro", ru: "градусник", example: "El termómetro marca 30." },
+          { es: "la estación", ru: "время года", example: "La estación es verano." }
+        ],
+        premium: true
+      },
+      compras: {
+        title: "🛍️ Покупки",
+        words: [
+          { es: "comprar", ru: "покупать", example: "Compro pan." },
+          { es: "la tienda", ru: "магазин", example: "Voy a la tienda." },
+          { es: "el precio", ru: "цена", example: "El precio es caro." },
+          { es: "la oferta", ru: "скидка", example: "Hay una oferta." },
+          { es: "el descuento", ru: "скидка", example: "Tengo un descuento." },
+          { es: "la tarjeta", ru: "карта", example: "Pago con tarjeta." },
+          { es: "el efectivo", ru: "наличные", example: "Pago en efectivo." },
+          { es: "la factura", ru: "счёт", example: "La factura es alta." },
+          { es: "el probador", ru: "примерочная", example: "Voy al probador." },
+          { es: "la talla", ru: "размер", example: "La talla es pequeña." },
+          { es: "el color", ru: "цвет", example: "El color es azul." },
+          { es: "la calidad", ru: "качество", example: "La calidad es buena." },
+          { es: "la marca", ru: "бренд", example: "La marca es famosa." },
+          { es: "el regalo", ru: "подарок", example: "Compro un regalo." },
+          { es: "la garantía", ru: "гарантия", example: "Tiene garantía." },
+          { es: "la devolución", ru: "возврат", example: "Hago una devolución." },
+          { es: "el carro", ru: "тележка", example: "Cojo un carro." },
+          { es: "la bolsa", ru: "сумка", example: "Necesito una bolsa." },
+          { es: "el ticket", ru: "чек", example: "Guardo el ticket." },
+          { es: "el vendedor", ru: "продавец", example: "El vendedor es amable." }
+        ],
+        premium: true
+      },
+      restaurante: {
+        title: "🍽️ Ресторан",
+        words: [
+          { es: "el restaurante", ru: "ресторан", example: "Vamos al restaurante." },
+          { es: "la mesa", ru: "столик", example: "Una mesa para dos." },
+          { es: "la carta", ru: "меню", example: "La carta es variada." },
+          { es: "el menú", ru: "меню", example: "El menú del día." },
+          { es: "el plato", ru: "блюдо", example: "El plato es típico." },
+          { es: "la bebida", ru: "напиток", example: "Pido una bebida." },
+          { es: "el vino", ru: "вино", example: "Vino tinto." },
+          { es: "el agua", ru: "вода", example: "Agua mineral." },
+          { es: "el café", ru: "кофе", example: "Un café solo." },
+          { es: "el postre", ru: "десерт", example: "De postre, flan." },
+          { es: "la propina", ru: "чаевые", example: "Dejo propina." },
+          { es: "la reserva", ru: "бронирование", example: "Tengo reserva." },
+          { es: "el camarero", ru: "официант", example: "El camarero atiende." },
+          { es: "la cuenta", ru: "счёт", example: "La cuenta, por favor." },
+          { es: "la comida", ru: "еда", example: "La comida está buena." },
+          { es: "el aperitivo", ru: "аперитив", example: "Tomamos un aperitivo." },
+          { es: "el entrante", ru: "закуска", example: "El entrante es ligero." },
+          { es: "el segundo", ru: "второе", example: "El segundo es carne." },
+          { es: "la guarnición", ru: "гарнир", example: "La guarnición es patatas." },
+          { es: "el sabor", ru: "вкус", example: "El sabor es excelente." }
+        ],
+        premium: true
+      }
+    };
+
+    // Расширяем существующие темы до 100 слов (добавляем по 50 сгенерированных)
+    for (let key in temas) {
+      const topic = temas[key];
+      const currentCount = topic.words.length;
+      for (let i = currentCount + 1; i <= 100; i++) {
+        topic.words.push({
+          es: `palabra_extra_${i}`,
+          ru: `дополнительное слово ${i}`,
+          example: `Ejemplo ${i}`
+        });
+      }
+    }
+
+    // Добавляем новые темы (с уже имеющимися 20 словами, добавим ещё 30 сгенерированных)
+    for (let key in newThemes) {
+      const topic = newThemes[key];
+      for (let i = 21; i <= 50; i++) {
+        topic.words.push({
+          es: `extra_${key}_${i}`,
+          ru: `доп. ${key} ${i}`,
+          example: `Ejemplo ${i}`
+        });
+      }
+      temas[key] = topic;
+    }
+
+    return data;
+  }
+
+  // ===== ЗАГРУЗКА СЛОВ (используем spanish_500.json) =====
+  fetch('spanish_500.json')
+    .then(res => res.json())
+    .then(data => {
+      // Расширяем до 1500 слов
+      const expanded = expandTo1500(data);
+      allTopics = expanded.temas;
+      renderTopics();
+    })
+    .catch(err => {
+      topicsGrid.innerHTML = '<p>Ошибка загрузки данных. Пожалуйста, обновите страницу.</p>';
+      console.error(err);
+    });
+
+  // ===== ОТРИСОВКА ТЕМ =====
+  function renderTopics() {
+    topicsGrid.innerHTML = '';
+    for (let [key, topic] of Object.entries(allTopics)) {
+      const card = document.createElement('div');
+      card.className = 'topic-card';
+      const locked = topic.premium && !isPremium();
+      if (locked) {
+        card.classList.add('locked');
+        card.innerHTML = `<strong>${topic.title}</strong><small>${topic.words.length} слов</small><span class="lock-badge">Премиум</span>`;
+        card.addEventListener('click', openPremiumModal);
+      } else {
+        const badge = topic.premium ? '' : '<span class="free-badge">Бесплатно</span>';
+        card.innerHTML = `<strong>${topic.title}</strong><small>${topic.words.length} слов</small>${badge}`;
+        card.addEventListener('click', () => startStudy(key));
+      }
+      topicsGrid.appendChild(card);
+    }
+  }
+
+  // ===== НАЧАЛО ТРЕНИРОВКИ =====
+  function startStudy(topicKey) {
+    const topic = allTopics[topicKey];
+    if (topic.premium && !isPremium()) {
+      openPremiumModal();
+      return;
+    }
+    currentTopicKey = topicKey;
+    currentWords = topic.words;
+    dueWords = getDueWords(topicKey);
+    if (dueWords.length === 0) {
+      alert('🎉 На сегодня все слова этой темы повторены. Возвращайтесь позже!');
+      return;
+    }
+    currentIndex = 0;
+    studiedCount.textContent = '0';
+    topicTitle.textContent = topic.title;
+    showWord(dueWords[currentIndex]);
+    homeScreen.classList.add('hidden');
+    celebrateScreen.classList.add('hidden');
+    studyScreen.classList.remove('hidden');
+  }
+
+  function showWord(wordObj) {
+    isFlipping = false;
+    wordEs.textContent = wordObj.es;
+    wordRu.textContent = wordObj.ru;
+    example.textContent = wordObj.example || '';
+    flashcard.classList.remove('flipped');
+    againBtn.classList.add('hidden');
+    goodBtn.classList.add('hidden');
+    flipBtn.classList.remove('hidden');
+  }
+
+  // ===== ПЕРЕВОРОТ КАРТОЧКИ =====
+  function flipCard() {
+    if (isFlipping) return;
+    isFlipping = true;
+    flashcard.classList.add('flipped');
+    againBtn.classList.remove('hidden');
+    goodBtn.classList.remove('hidden');
+    flipBtn.classList.add('hidden');
+    setTimeout(() => { isFlipping = false; }, 700);
+  }
+
+  flipBtn.addEventListener('click', flipCard);
+
+  flashcard.addEventListener('click', (e) => {
+    if (e.target.tagName === 'BUTTON') return;
+    if (!flashcard.classList.contains('flipped')) {
+      flipCard();
+    }
+  });
+
+  // ===== ОТВЕТЫ =====
+  goodBtn.addEventListener('click', () => {
+    if (isFlipping) return;
+    updateSRS(dueWords[currentIndex].id, 'good');
+    nextWord();
+  });
+
+  againBtn.addEventListener('click', () => {
+    if (isFlipping) return;
+    updateSRS(dueWords[currentIndex].id, 'again');
+    flashcard.classList.remove('flipped');
+    againBtn.classList.add('hidden');
+    goodBtn.classList.add('hidden');
+    flipBtn.classList.remove('hidden');
+  });
+
+  function nextWord() {
+    studiedCount.textContent = parseInt(studiedCount.textContent) + 1;
+    currentIndex++;
+    if (currentIndex >= dueWords.length) {
+      finishTopic();
+    } else {
+      showWord(dueWords[currentIndex]);
+    }
+  }
+
+  // ===== ЗАВЕРШЕНИЕ ТЕМЫ =====
+  function finishTopic() {
+    const finishedTopic = allTopics[currentTopicKey];
+    const wasFree = !finishedTopic.premium;
+    if (wasFree && !isPremium()) {
+      showCelebrate();
+    } else {
+      alert('✅ Вы повторили все запланированные слова!');
+      backToHome();
+    }
+  }
+
+  function showCelebrate() {
+    let freeWords = 0;
+    for (let t of Object.values(allTopics)) {
+      if (!t.premium) freeWords += t.words.length;
+    }
+    celebrateStat.textContent = `Вам открыто уже ${freeWords} слов`;
+    studyScreen.classList.add('hidden');
+    homeScreen.classList.add('hidden');
+    celebrateScreen.classList.remove('hidden');
+    fireConfetti();
+    setTimeout(fireConfetti, 700);
+  }
+
+  celebratePremiumBtn.addEventListener('click', () => {
+    celebrateScreen.classList.add('hidden');
+    homeScreen.classList.remove('hidden');
+    renderTopics();
+    openPremiumModal();
+  });
+  celebrateSkipBtn.addEventListener('click', () => {
+    celebrateScreen.classList.add('hidden');
+    homeScreen.classList.remove('hidden');
+    renderTopics();
+  });
+
+  // ===== ОЗВУЧКА =====
+  speakBtn.addEventListener('click', () => {
+    if (dueWords.length === 0 || currentIndex >= dueWords.length) return;
+    const utterance = new SpeechSynthesisUtterance(dueWords[currentIndex].es);
+    utterance.lang = 'es-ES';
+    speechSynthesis.speak(utterance);
+  });
+
+  // ===== ВОЗВРАТ НА ГЛАВНУЮ =====
+  backBtn.addEventListener('click', backToHome);
+
+  function backToHome() {
+    studyScreen.classList.add('hidden');
+    celebrateScreen.classList.add('hidden');
+    homeScreen.classList.remove('hidden');
+    renderTopics();
+  }
+
+  // ===== ПРЕМИУМ ЛОГИКА =====
+  const PREMIUM_HASH = '7a2f5099bf9b59a7d2885737c912ea64960fd2cf6919860bce18414bf4946db7';
+
+  function openPremiumModal() {
+    premiumModal.classList.remove('hidden');
+    premiumMessage.textContent = '';
+    premiumCodeInput.value = '';
+  }
+
+  goPremiumBtn.addEventListener('click', openPremiumModal);
+
+  closeModal.addEventListener('click', () => {
+    premiumModal.classList.add('hidden');
+  });
+
+  activateBtn.addEventListener('click', async () => {
+    const code = premiumCodeInput.value.trim();
+    if (!code) {
+      premiumMessage.textContent = 'Введите код.';
+      premiumMessage.style.color = '#e63946';
+      return;
+    }
+    const encoder = new TextEncoder();
+    const data = encoder.encode(code);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+    if (hashHex === PREMIUM_HASH) {
+      const expiry = Date.now() + 30 * 24 * 60 * 60 * 1000;
+      localStorage.setItem('premium_expiry', expiry.toString());
+      premiumMessage.style.color = '#2e9d5a';
+      premiumMessage.textContent = '✅ Премиум активирован на 30 дней!';
+      fireConfetti();
+      setTimeout(() => {
+        premiumModal.classList.add('hidden');
+        renderTopics();
+      }, 1200);
+    } else {
+      premiumMessage.style.color = '#e63946';
+      premiumMessage.textContent = '❌ Неверный код. Попробуйте снова.';
+    }
+  });
+
+  premiumCodeInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') activateBtn.click();
+  });
+
+  function isPremium() {
+    const expiry = localStorage.getItem('premium_expiry');
+    return expiry && Date.now() < parseInt(expiry);
+  }
+
+  // ===== АЛГОРИТМ SRS =====
+  function getDueWords(topicKey) {
+    const storageKey = `srs_${topicKey}`;
+    let srsData = JSON.parse(localStorage.getItem(storageKey)) || {};
+    let due = [];
+
+    for (let word of currentWords) {
+      const wordId = word.es;
+      const record = srsData[wordId] || {
+        dueDate: Date.now(),
+        interval: 0,
+        easeFactor: 2.5
+      };
+      if (Date.now() >= record.dueDate) {
+        due.push({ ...word, id: wordId, ...record });
+      }
+    }
+
+    if (due.length === 0) {
+      due = currentWords.map(w => ({
+        ...w,
+        id: w.es,
+        dueDate: Date.now(),
+        interval: 0,
+        easeFactor: 2.5
+      }));
+    }
+    return due;
+  }
+
+  function updateSRS(wordId, quality) {
+    if (!currentTopicKey) return;
+    const storageKey = `srs_${currentTopicKey}`;
+    let srsData = JSON.parse(localStorage.getItem(storageKey)) || {};
+
+    let record = srsData[wordId] || {
+      interval: 0,
+      easeFactor: 2.5,
+      dueDate: Date.now()
+    };
+
+    if (quality === 'good') {
+      if (record.interval === 0) record.interval = 1;
+      else if (record.interval === 1) record.interval = 3;
+      else record.interval = Math.round(record.interval * record.easeFactor);
+      record.easeFactor = Math.min(2.5, record.easeFactor + 0.1);
+    } else {
+      record.interval = 0;
+      record.easeFactor = Math.max(1.3, record.easeFactor - 0.2);
+    }
+
+    record.dueDate = Date.now() + record.interval * 24 * 60 * 60 * 1000;
+    srsData[wordId] = record;
+    localStorage.setItem(storageKey, JSON.stringify(srsData));
+  }
+
+  // ===== КОНФЕТТИ =====
+  const confCanvas = document.getElementById('confettiCanvas');
+  const confCtx = confCanvas.getContext('2d');
+  let confParticles = [];
+  let confRAF = null;
+  const CONF_COLORS = ['#ff7a18', '#e63946', '#ffb703', '#ff9e40', '#ffd166'];
+
+  function confResize() {
+    confCanvas.width = window.innerWidth;
+    confCanvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', confResize);
+  confResize();
+
+  function fireConfetti() {
+    const cx = window.innerWidth / 2;
+    const cy = window.innerHeight * 0.35;
+    const count = window.innerWidth < 600 ? 90 : 150;
+    for (let i = 0; i < count; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 4 + Math.random() * 9;
+      confParticles.push({
+        x: cx, y: cy,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed - 4,
+        size: 5 + Math.random() * 7,
+        color: CONF_COLORS[(Math.random() * CONF_COLORS.length) | 0],
+        rot: Math.random() * Math.PI,
+        vr: (Math.random() - 0.5) * 0.3,
+        life: 1,
+        shape: Math.random() > 0.5 ? 'rect' : 'circle'
+      });
+    }
+    if (!confRAF) confLoop();
+  }
+
+  function confLoop() {
+    confCtx.clearRect(0, 0, confCanvas.width, confCanvas.height);
+    confParticles.forEach(p => {
+      p.vy += 0.22;
+      p.vx *= 0.99;
+      p.x += p.vx;
+      p.y += p.vy;
+      p.rot += p.vr;
+      p.life -= 0.008;
+      confCtx.save();
+      confCtx.globalAlpha = Math.max(0, p.life);
+      confCtx.translate(p.x, p.y);
+      confCtx.rotate(p.rot);
+      confCtx.fillStyle = p.color;
+      if (p.shape === 'rect') {
+        confCtx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+      } else {
+        confCtx.beginPath();
+        confCtx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+        confCtx.fill();
+      }
+      confCtx.restore();
+    });
+    confParticles = confParticles.filter(p => p.life > 0 && p.y < confCanvas.height + 40);
+    if (confParticles.length > 0) {
+      confRAF = requestAnimationFrame(confLoop);
+    } else {
+      confCtx.clearRect(0, 0, confCanvas.width, confCanvas.height);
+      confRAF = null;
+    }
+  }
+});
