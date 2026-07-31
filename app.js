@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // --- DOM элементы ---
   const homeScreen = document.getElementById('home-screen');
   const studyScreen = document.getElementById('study-screen');
   const celebrateScreen = document.getElementById('celebrate-screen');
@@ -24,13 +25,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const celebratePremiumBtn = document.getElementById('celebrate-premium');
   const celebrateSkipBtn = document.getElementById('celebrate-skip');
 
+  // --- Глобальные переменные ---
   let allTopics = {};
   let currentTopicKey = '';
   let currentWords = [];
   let dueWords = [];
   let currentIndex = 0;
-  let isFlipping = false;
 
+  // ===== ЗАГРУЗКА СЛОВ =====
   fetch('spanish_500.json')
     .then(res => res.json())
     .then(data => {
@@ -42,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error(err);
     });
 
+  // ===== ОТРИСОВКА ТЕМ =====
   function renderTopics() {
     topicsGrid.innerHTML = '';
     for (let [key, topic] of Object.entries(allTopics)) {
@@ -51,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (locked) {
         card.classList.add('locked');
         card.innerHTML = `<strong>${topic.title}</strong><small>${topic.words.length} слов</small><span class="lock-badge">Премиум</span>`;
+        // Клик по замку — открываем окно премиума (а не просто alert)
         card.addEventListener('click', openPremiumModal);
       } else {
         const badge = topic.premium ? '' : '<span class="free-badge">Бесплатно</span>';
@@ -61,6 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // ===== НАЧАЛО ТРЕНИРОВКИ =====
   function startStudy(topicKey) {
     const topic = allTopics[topicKey];
     if (topic.premium && !isPremium()) {
@@ -84,7 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function showWord(wordObj) {
-    isFlipping = false;
     wordEs.textContent = wordObj.es;
     wordRu.textContent = wordObj.ru;
     example.textContent = wordObj.example || '';
@@ -94,30 +98,31 @@ document.addEventListener('DOMContentLoaded', () => {
     flipBtn.classList.remove('hidden');
   }
 
-  function flipCard() {
-    if (isFlipping) return;
-    isFlipping = true;
+  // ===== ПЕРЕВОРОТ КАРТОЧКИ =====
+  flipBtn.addEventListener('click', () => {
     flashcard.classList.add('flipped');
     againBtn.classList.remove('hidden');
     goodBtn.classList.remove('hidden');
     flipBtn.classList.add('hidden');
-    setTimeout(() => { isFlipping = false; }, 700);
-  }
-
-  flipBtn.addEventListener('click', flipCard);
-  flashcard.addEventListener('click', (e) => {
-    if (e.target.tagName === 'BUTTON') return;
-    if (!flashcard.classList.contains('flipped')) flipCard();
   });
 
+  flashcard.addEventListener('click', (e) => {
+    if (e.target.tagName === 'BUTTON') return;
+    if (!flashcard.classList.contains('flipped')) {
+      flashcard.classList.add('flipped');
+      againBtn.classList.remove('hidden');
+      goodBtn.classList.remove('hidden');
+      flipBtn.classList.add('hidden');
+    }
+  });
+
+  // ===== ОТВЕТЫ =====
   goodBtn.addEventListener('click', () => {
-    if (isFlipping) return;
     updateSRS(dueWords[currentIndex].id, 'good');
     nextWord();
   });
 
   againBtn.addEventListener('click', () => {
-    if (isFlipping) return;
     updateSRS(dueWords[currentIndex].id, 'again');
     flashcard.classList.remove('flipped');
     againBtn.classList.add('hidden');
@@ -135,9 +140,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // ===== ЗАВЕРШЕНИЕ ТЕМЫ =====
   function finishTopic() {
     const finishedTopic = allTopics[currentTopicKey];
     const wasFree = !finishedTopic.premium;
+    // Триггерный экран показываем, только если тема бесплатная И премиум ещё не куплен
     if (wasFree && !isPremium()) {
       showCelebrate();
     } else {
@@ -147,6 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function showCelebrate() {
+    // Подсчёт: сколько бесплатных слов всего доступно
     let freeWords = 0;
     for (let t of Object.values(allTopics)) {
       if (!t.premium) freeWords += t.words.length;
@@ -171,14 +179,17 @@ document.addEventListener('DOMContentLoaded', () => {
     renderTopics();
   });
 
+  // ===== ОЗВУЧКА =====
   speakBtn.addEventListener('click', () => {
-    if (dueWords.length === 0 || currentIndex >= dueWords.length) return;
+    if (dueWords.length === 0) return;
     const utterance = new SpeechSynthesisUtterance(dueWords[currentIndex].es);
     utterance.lang = 'es-ES';
     speechSynthesis.speak(utterance);
   });
 
+  // ===== ВОЗВРАТ НА ГЛАВНУЮ =====
   backBtn.addEventListener('click', backToHome);
+
   function backToHome() {
     studyScreen.classList.add('hidden');
     celebrateScreen.classList.add('hidden');
@@ -186,6 +197,8 @@ document.addEventListener('DOMContentLoaded', () => {
     renderTopics();
   }
 
+  // ===== ПРЕМИУМ ЛОГИКА =====
+  // Хэш от кода ESPAÑOL2026
   const PREMIUM_HASH = '7a2f5099bf9b59a7d2885737c912ea64960fd2cf6919860bce18414bf4946db7';
 
   function openPremiumModal() {
@@ -195,6 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   goPremiumBtn.addEventListener('click', openPremiumModal);
+
   closeModal.addEventListener('click', () => {
     premiumModal.classList.add('hidden');
   });
@@ -213,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 
     if (hashHex === PREMIUM_HASH) {
-      const expiry = Date.now() + 30 * 24 * 60 * 60 * 1000;
+      const expiry = Date.now() + 30 * 24 * 60 * 60 * 1000; // 30 дней
       localStorage.setItem('premium_expiry', expiry.toString());
       premiumMessage.style.color = '#2e9d5a';
       premiumMessage.textContent = '✅ Премиум активирован на 30 дней!';
@@ -237,10 +251,12 @@ document.addEventListener('DOMContentLoaded', () => {
     return expiry && Date.now() < parseInt(expiry);
   }
 
+  // ===== АЛГОРИТМ SRS (упрощённый SM-2) =====
   function getDueWords(topicKey) {
     const storageKey = `srs_${topicKey}`;
     let srsData = JSON.parse(localStorage.getItem(storageKey)) || {};
     let due = [];
+
     for (let word of currentWords) {
       const wordId = word.es;
       const record = srsData[wordId] || {
@@ -252,6 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
         due.push({ ...word, id: wordId, ...record });
       }
     }
+
     if (due.length === 0) {
       due = currentWords.map(w => ({
         ...w,
@@ -268,11 +285,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!currentTopicKey) return;
     const storageKey = `srs_${currentTopicKey}`;
     let srsData = JSON.parse(localStorage.getItem(storageKey)) || {};
+
     let record = srsData[wordId] || {
       interval: 0,
       easeFactor: 2.5,
       dueDate: Date.now()
     };
+
     if (quality === 'good') {
       if (record.interval === 0) record.interval = 1;
       else if (record.interval === 1) record.interval = 3;
@@ -282,12 +301,13 @@ document.addEventListener('DOMContentLoaded', () => {
       record.interval = 0;
       record.easeFactor = Math.max(1.3, record.easeFactor - 0.2);
     }
+
     record.dueDate = Date.now() + record.interval * 24 * 60 * 60 * 1000;
     srsData[wordId] = record;
     localStorage.setItem(storageKey, JSON.stringify(srsData));
   }
 
-  // Confetti
+  // ===== КОНФЕТТИ =====
   const confCanvas = document.getElementById('confettiCanvas');
   const confCtx = confCanvas.getContext('2d');
   let confParticles = [];
