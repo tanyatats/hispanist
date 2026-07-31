@@ -31,9 +31,10 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentWords = [];
   let dueWords = [];
   let currentIndex = 0;
+  let isFlipping = false; // блокировка повторных кликов во время анимации
 
   // ===== ЗАГРУЗКА СЛОВ =====
-  fetch('spanish_500.json')
+  fetch('spanish_1500.json')   // ← новый файл с 1500 словами
     .then(res => res.json())
     .then(data => {
       allTopics = data.temas;
@@ -54,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (locked) {
         card.classList.add('locked');
         card.innerHTML = `<strong>${topic.title}</strong><small>${topic.words.length} слов</small><span class="lock-badge">Премиум</span>`;
-        // Клик по замку — открываем окно премиума (а не просто alert)
         card.addEventListener('click', openPremiumModal);
       } else {
         const badge = topic.premium ? '' : '<span class="free-badge">Бесплатно</span>';
@@ -89,6 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function showWord(wordObj) {
+    // Сбрасываем блокировку, если была
+    isFlipping = false;
     wordEs.textContent = wordObj.es;
     wordRu.textContent = wordObj.ru;
     example.textContent = wordObj.example || '';
@@ -98,36 +100,45 @@ document.addEventListener('DOMContentLoaded', () => {
     flipBtn.classList.remove('hidden');
   }
 
-  // ===== ПЕРЕВОРОТ КАРТОЧКИ =====
-  flipBtn.addEventListener('click', () => {
+  // ===== ПЕРЕВОРОТ КАРТОЧКИ (с защитой от повторного клика) =====
+  function flipCard() {
+    if (isFlipping) return;
+    isFlipping = true;
     flashcard.classList.add('flipped');
     againBtn.classList.remove('hidden');
     goodBtn.classList.remove('hidden');
     flipBtn.classList.add('hidden');
-  });
+    // Снимаем блокировку после завершения анимации
+    setTimeout(() => {
+      isFlipping = false;
+    }, 700); // чуть больше длительности transition (0.6s)
+  }
+
+  flipBtn.addEventListener('click', flipCard);
 
   flashcard.addEventListener('click', (e) => {
     if (e.target.tagName === 'BUTTON') return;
     if (!flashcard.classList.contains('flipped')) {
-      flashcard.classList.add('flipped');
-      againBtn.classList.remove('hidden');
-      goodBtn.classList.remove('hidden');
-      flipBtn.classList.add('hidden');
+      flipCard();
     }
   });
 
   // ===== ОТВЕТЫ =====
   goodBtn.addEventListener('click', () => {
+    if (isFlipping) return;
     updateSRS(dueWords[currentIndex].id, 'good');
     nextWord();
   });
 
   againBtn.addEventListener('click', () => {
+    if (isFlipping) return;
     updateSRS(dueWords[currentIndex].id, 'again');
+    // Показываем ту же карточку заново (без переворота)
     flashcard.classList.remove('flipped');
     againBtn.classList.add('hidden');
     goodBtn.classList.add('hidden');
     flipBtn.classList.remove('hidden');
+    // Не увеличиваем счётчик изученных
   });
 
   function nextWord() {
@@ -144,7 +155,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function finishTopic() {
     const finishedTopic = allTopics[currentTopicKey];
     const wasFree = !finishedTopic.premium;
-    // Триггерный экран показываем, только если тема бесплатная И премиум ещё не куплен
     if (wasFree && !isPremium()) {
       showCelebrate();
     } else {
@@ -154,7 +164,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function showCelebrate() {
-    // Подсчёт: сколько бесплатных слов всего доступно
     let freeWords = 0;
     for (let t of Object.values(allTopics)) {
       if (!t.premium) freeWords += t.words.length;
@@ -181,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ===== ОЗВУЧКА =====
   speakBtn.addEventListener('click', () => {
-    if (dueWords.length === 0) return;
+    if (dueWords.length === 0 || currentIndex >= dueWords.length) return;
     const utterance = new SpeechSynthesisUtterance(dueWords[currentIndex].es);
     utterance.lang = 'es-ES';
     speechSynthesis.speak(utterance);
@@ -198,7 +207,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ===== ПРЕМИУМ ЛОГИКА =====
-  // Хэш от кода ESPAÑOL2026
   const PREMIUM_HASH = '7a2f5099bf9b59a7d2885737c912ea64960fd2cf6919860bce18414bf4946db7';
 
   function openPremiumModal() {
@@ -227,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 
     if (hashHex === PREMIUM_HASH) {
-      const expiry = Date.now() + 30 * 24 * 60 * 60 * 1000; // 30 дней
+      const expiry = Date.now() + 30 * 24 * 60 * 60 * 1000;
       localStorage.setItem('premium_expiry', expiry.toString());
       premiumMessage.style.color = '#2e9d5a';
       premiumMessage.textContent = '✅ Премиум активирован на 30 дней!';
