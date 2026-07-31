@@ -243,7 +243,7 @@ body::after{ width:460px; height:460px; background:#ffb0a8; top:10%; right:-140p
 }
 .progress-wrap{ text-align:center; }
 
-/* Карточка-флешкарта */
+/* Карточка-флешкарта — надёжный переворот без просвечивания */
 .card-scene{ perspective:1200px; max-width:440px; margin:0 auto 30px; }
 #flashcard{
   position:relative; width:100%; min-height:280px;
@@ -251,33 +251,44 @@ body::after{ width:460px; height:460px; background:#ffb0a8; top:10%; right:-140p
   cursor:pointer;
 }
 #flashcard.flipped{ transform:rotateY(180deg); }
+
 #flashcard .front, #flashcard .back{
   position:absolute; inset:0;
   backface-visibility:hidden; -webkit-backface-visibility:hidden;
-  -webkit-transform:translateZ(0); transform:translateZ(0);
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   padding:36px; border-radius:28px;
-  background:#fffdfb;
   border:1px solid var(--line);
   box-shadow:0 20px 60px -18px rgba(230,57,70,.3), inset 0 1px 0 rgba(255,255,255,.9);
   overflow:hidden;
+  /* Дополнительная защита от просвечивания: скрываем грань, когда она сзади */
+  transition:opacity .25s ease;
 }
 #flashcard .front{
   background:linear-gradient(135deg, #fff3df 0%, #ffe4e0 100%);
+  transform:rotateY(0deg);
+  z-index:2;
 }
 #flashcard .back{
   background:linear-gradient(135deg, #fffaf3 0%, #fff0ea 100%);
+  transform:rotateY(180deg);
+  z-index:1;
 }
+/* Когда карточка НЕ перевёрнута — прячем заднюю сторону полностью */
+#flashcard:not(.flipped) .back{ opacity:0; }
+#flashcard:not(.flipped) .front{ opacity:1; }
+/* Когда перевёрнута — прячем переднюю */
+#flashcard.flipped .front{ opacity:0; }
+#flashcard.flipped .back{ opacity:1; }
+
 #flashcard .front span{
   font-family:'Unbounded','Inter',sans-serif; font-weight:800;
   font-size:clamp(30px,7vw,46px); letter-spacing:-.01em; text-align:center;
   color:var(--ink);
 }
-#flashcard .back{ -webkit-transform:rotateY(180deg) translateZ(0); transform:rotateY(180deg) translateZ(0); }
 #flashcard .back span{
   font-family:'Unbounded','Inter',sans-serif; font-weight:800;
   font-size:clamp(26px,6vw,38px); margin-bottom:16px; text-align:center;
-  background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;
+  color:#e63946;
 }
 #flashcard .back p{
   color:var(--text); font-size:16px; line-height:1.5; text-align:center;
