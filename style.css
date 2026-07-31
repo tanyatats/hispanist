@@ -358,3 +358,54 @@ body::after{ width:460px; height:460px; background:#ffb0a8; top:10%; right:-140p
   *{ animation-duration:.001s !important; transition-duration:.05s !important; }
   html{ scroll-behavior:auto; }
 }
+
+/* ---------- БЛОК БЛОГА на главном экране ---------- */
+.blog-section{ margin:50px 0 20px; }
+.blog-title{
+  font-family:'Unbounded','Inter',sans-serif; font-weight:800;
+  font-size:clamp(22px,4vw,30px); text-align:center; margin:0 0 24px;
+  letter-spacing:-.01em; color:var(--ink);
+}
+.blog-title em{
+  font-style:normal;
+  background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.blog-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:18px;
+}
+.blog-card{
+  position:relative; display:block; text-decoration:none;
+  background:rgba(255,255,255,.55);
+  backdrop-filter:blur(18px) saturate(160%);
+  -webkit-backdrop-filter:blur(18px) saturate(160%);
+  border:1px solid rgba(255,255,255,.6);
+  border-radius:22px;
+  padding:26px 24px;
+  overflow:hidden;
+  box-shadow:0 12px 44px -14px rgba(230,57,70,.22), inset 0 1px 0 rgba(255,255,255,.7);
+  transition:transform .3s, box-shadow .3s;
+}
+.blog-card::before{
+  content:''; position:absolute; top:0; left:0; right:0; height:90px;
+  background:linear-gradient(180deg, rgba(255,255,255,.5), transparent);
+  pointer-events:none;
+}
+.blog-card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 22px 56px -16px rgba(230,57,70,.35), inset 0 1px 0 rgba(255,255,255,.8);
+}
+.blog-card .blog-ico{
+  position:relative; display:inline-grid; place-items:center;
+  width:48px; height:48px; margin-bottom:14px; font-size:24px;
+  border-radius:14px;
+  background:linear-gradient(135deg, rgba(255,183,3,.2), rgba(230,57,70,.16));
+  border:1px solid rgba(255,255,255,.7);
+}
+.blog-card strong{
+  position:relative; display:block;
+  font-family:'Unbounded','Inter',sans-serif; font-weight:700;
+  font-size:17px; color:var(--ink); margin-bottom:6px; letter-spacing:-.01em;
+}
+.blog-card small{ position:relative; color:var(--dim); font-size:14px; line-height:1.5; }
