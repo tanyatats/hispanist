@@ -234,42 +234,82 @@ body::after{ width:460px; height:460px; background:#ffb0a8; top:10%; right:-140p
 }
 .progress-wrap{ text-align:center; }
 
-/* Карточка-флешкарта */
-.card-scene{ perspective:1200px; max-width:440px; margin:0 auto 30px; }
+/* ---------- КАРТОЧКА (улучшенная анимация) ---------- */
+.card-scene{
+  perspective: 1200px;
+  max-width: 440px;
+  margin: 0 auto 30px;
+}
 #flashcard{
-  position:relative; width:100%; min-height:280px;
-  transform-style:preserve-3d; transition:transform .5s cubic-bezier(.4,.2,.2,1);
-  cursor:pointer;
+  position: relative;
+  width: 100%;
+  min-height: 280px;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  cursor: pointer;
+  will-change: transform;
 }
-#flashcard.flipped{ transform:rotateY(180deg); }
-#flashcard .front, #flashcard .back{
-  position:absolute; inset:0;
-  backface-visibility:hidden; -webkit-backface-visibility:hidden;
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  padding:36px; border-radius:28px;
-  background:rgba(255,255,255,.6);
-  backdrop-filter:blur(20px) saturate(160%);
-  -webkit-backdrop-filter:blur(20px) saturate(160%);
-  border:1px solid rgba(255,255,255,.65);
-  box-shadow:0 20px 60px -18px rgba(230,57,70,.3), inset 0 1px 0 rgba(255,255,255,.7);
+#flashcard.flipped{
+  transform: rotateY(180deg);
 }
+
+/* Обе стороны */
+#flashcard .front,
+#flashcard .back{
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 36px;
+  border-radius: 28px;
+  background: rgba(255,255,255,.6);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255,255,255,.65);
+  box-shadow: 0 20px 60px -18px rgba(230,57,70,.3), inset 0 1px 0 rgba(255,255,255,.7);
+  will-change: transform, opacity;
+}
+
+/* Лицевая сторона */
 #flashcard .front{
-  background:linear-gradient(135deg, rgba(255,183,3,.14), rgba(230,57,70,.14)), rgba(255,255,255,.6);
+  background: linear-gradient(135deg, rgba(255,183,3,.14), rgba(230,57,70,.14)), rgba(255,255,255,.6);
+  transform: rotateY(0deg);
 }
 #flashcard .front span{
-  font-family:'Unbounded','Inter',sans-serif; font-weight:800;
-  font-size:clamp(30px,7vw,46px); letter-spacing:-.01em; text-align:center;
+  font-family:'Unbounded','Inter',sans-serif;
+  font-weight:800;
+  font-size:clamp(30px,7vw,46px);
+  letter-spacing:-.01em;
+  text-align:center;
   color:var(--ink);
 }
-#flashcard .back{ transform:rotateY(180deg); }
+
+/* Задняя сторона – изначально повёрнута на 180° */
+#flashcard .back{
+  transform: rotateY(180deg);
+}
 #flashcard .back span{
-  font-family:'Unbounded','Inter',sans-serif; font-weight:800;
-  font-size:clamp(26px,6vw,38px); margin-bottom:16px; text-align:center;
-  background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;
+  font-family:'Unbounded','Inter',sans-serif;
+  font-weight:800;
+  font-size:clamp(26px,6vw,38px);
+  margin-bottom:16px;
+  text-align:center;
+  background:var(--grad);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
 }
 #flashcard .back p{
-  color:var(--text); font-size:16px; line-height:1.5; text-align:center;
-  font-style:italic; margin:0;
+  color:var(--text);
+  font-size:16px;
+  line-height:1.5;
+  text-align:center;
+  font-style:italic;
+  margin:0;
 }
 
 /* Кнопки под карточкой */
