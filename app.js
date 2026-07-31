@@ -1,6 +1,4 @@
-fetch('spanish_500.json')
-  document.addEventListener('DOMContentLoaded', () => {
-  // --- DOM элементы ---
+document.addEventListener('DOMContentLoaded', () => {
   const homeScreen = document.getElementById('home-screen');
   const studyScreen = document.getElementById('study-screen');
   const celebrateScreen = document.getElementById('celebrate-screen');
@@ -26,16 +24,14 @@ fetch('spanish_500.json')
   const celebratePremiumBtn = document.getElementById('celebrate-premium');
   const celebrateSkipBtn = document.getElementById('celebrate-skip');
 
-  // --- Глобальные переменные ---
   let allTopics = {};
   let currentTopicKey = '';
   let currentWords = [];
   let dueWords = [];
   let currentIndex = 0;
-  let isFlipping = false; // блокировка повторных кликов во время анимации
+  let isFlipping = false;
 
-  // ===== ЗАГРУЗКА СЛОВ =====
-  fetch('spanish_1500.json')   // ← новый файл с 1500 словами
+  fetch('spanish_500.json')
     .then(res => res.json())
     .then(data => {
       allTopics = data.temas;
@@ -46,7 +42,6 @@ fetch('spanish_500.json')
       console.error(err);
     });
 
-  // ===== ОТРИСОВКА ТЕМ =====
   function renderTopics() {
     topicsGrid.innerHTML = '';
     for (let [key, topic] of Object.entries(allTopics)) {
@@ -66,7 +61,6 @@ fetch('spanish_500.json')
     }
   }
 
-  // ===== НАЧАЛО ТРЕНИРОВКИ =====
   function startStudy(topicKey) {
     const topic = allTopics[topicKey];
     if (topic.premium && !isPremium()) {
@@ -90,7 +84,6 @@ fetch('spanish_500.json')
   }
 
   function showWord(wordObj) {
-    // Сбрасываем блокировку, если была
     isFlipping = false;
     wordEs.textContent = wordObj.es;
     wordRu.textContent = wordObj.ru;
@@ -101,7 +94,6 @@ fetch('spanish_500.json')
     flipBtn.classList.remove('hidden');
   }
 
-  // ===== ПЕРЕВОРОТ КАРТОЧКИ (с защитой от повторного клика) =====
   function flipCard() {
     if (isFlipping) return;
     isFlipping = true;
@@ -109,22 +101,15 @@ fetch('spanish_500.json')
     againBtn.classList.remove('hidden');
     goodBtn.classList.remove('hidden');
     flipBtn.classList.add('hidden');
-    // Снимаем блокировку после завершения анимации
-    setTimeout(() => {
-      isFlipping = false;
-    }, 700); // чуть больше длительности transition (0.6s)
+    setTimeout(() => { isFlipping = false; }, 700);
   }
 
   flipBtn.addEventListener('click', flipCard);
-
   flashcard.addEventListener('click', (e) => {
     if (e.target.tagName === 'BUTTON') return;
-    if (!flashcard.classList.contains('flipped')) {
-      flipCard();
-    }
+    if (!flashcard.classList.contains('flipped')) flipCard();
   });
 
-  // ===== ОТВЕТЫ =====
   goodBtn.addEventListener('click', () => {
     if (isFlipping) return;
     updateSRS(dueWords[currentIndex].id, 'good');
@@ -134,12 +119,10 @@ fetch('spanish_500.json')
   againBtn.addEventListener('click', () => {
     if (isFlipping) return;
     updateSRS(dueWords[currentIndex].id, 'again');
-    // Показываем ту же карточку заново (без переворота)
     flashcard.classList.remove('flipped');
     againBtn.classList.add('hidden');
     goodBtn.classList.add('hidden');
     flipBtn.classList.remove('hidden');
-    // Не увеличиваем счётчик изученных
   });
 
   function nextWord() {
@@ -152,7 +135,6 @@ fetch('spanish_500.json')
     }
   }
 
-  // ===== ЗАВЕРШЕНИЕ ТЕМЫ =====
   function finishTopic() {
     const finishedTopic = allTopics[currentTopicKey];
     const wasFree = !finishedTopic.premium;
@@ -189,7 +171,6 @@ fetch('spanish_500.json')
     renderTopics();
   });
 
-  // ===== ОЗВУЧКА =====
   speakBtn.addEventListener('click', () => {
     if (dueWords.length === 0 || currentIndex >= dueWords.length) return;
     const utterance = new SpeechSynthesisUtterance(dueWords[currentIndex].es);
@@ -197,9 +178,7 @@ fetch('spanish_500.json')
     speechSynthesis.speak(utterance);
   });
 
-  // ===== ВОЗВРАТ НА ГЛАВНУЮ =====
   backBtn.addEventListener('click', backToHome);
-
   function backToHome() {
     studyScreen.classList.add('hidden');
     celebrateScreen.classList.add('hidden');
@@ -207,7 +186,6 @@ fetch('spanish_500.json')
     renderTopics();
   }
 
-  // ===== ПРЕМИУМ ЛОГИКА =====
   const PREMIUM_HASH = '7a2f5099bf9b59a7d2885737c912ea64960fd2cf6919860bce18414bf4946db7';
 
   function openPremiumModal() {
@@ -217,7 +195,6 @@ fetch('spanish_500.json')
   }
 
   goPremiumBtn.addEventListener('click', openPremiumModal);
-
   closeModal.addEventListener('click', () => {
     premiumModal.classList.add('hidden');
   });
@@ -260,12 +237,10 @@ fetch('spanish_500.json')
     return expiry && Date.now() < parseInt(expiry);
   }
 
-  // ===== АЛГОРИТМ SRS (упрощённый SM-2) =====
   function getDueWords(topicKey) {
     const storageKey = `srs_${topicKey}`;
     let srsData = JSON.parse(localStorage.getItem(storageKey)) || {};
     let due = [];
-
     for (let word of currentWords) {
       const wordId = word.es;
       const record = srsData[wordId] || {
@@ -277,7 +252,6 @@ fetch('spanish_500.json')
         due.push({ ...word, id: wordId, ...record });
       }
     }
-
     if (due.length === 0) {
       due = currentWords.map(w => ({
         ...w,
@@ -294,13 +268,11 @@ fetch('spanish_500.json')
     if (!currentTopicKey) return;
     const storageKey = `srs_${currentTopicKey}`;
     let srsData = JSON.parse(localStorage.getItem(storageKey)) || {};
-
     let record = srsData[wordId] || {
       interval: 0,
       easeFactor: 2.5,
       dueDate: Date.now()
     };
-
     if (quality === 'good') {
       if (record.interval === 0) record.interval = 1;
       else if (record.interval === 1) record.interval = 3;
@@ -310,13 +282,12 @@ fetch('spanish_500.json')
       record.interval = 0;
       record.easeFactor = Math.max(1.3, record.easeFactor - 0.2);
     }
-
     record.dueDate = Date.now() + record.interval * 24 * 60 * 60 * 1000;
     srsData[wordId] = record;
     localStorage.setItem(storageKey, JSON.stringify(srsData));
   }
 
-  // ===== КОНФЕТТИ =====
+  // Confetti
   const confCanvas = document.getElementById('confettiCanvas');
   const confCtx = confCanvas.getContext('2d');
   let confParticles = [];
