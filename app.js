@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', () => {
+fetch('spanish_500.json')
+  document.addEventListener('DOMContentLoaded', () => {
   // --- DOM элементы ---
   const homeScreen = document.getElementById('home-screen');
   const studyScreen = document.getElementById('study-screen');
