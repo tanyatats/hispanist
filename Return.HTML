@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Оплата — Hispanist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .return-wrap{ max-width:480px; margin:0 auto; padding:80px 20px; text-align:center; position:relative; z-index:1; }
+    .return-card{
+      background:rgba(255,255,255,.6); backdrop-filter:blur(20px) saturate(160%);
+      -webkit-backdrop-filter:blur(20px) saturate(160%);
+      border:1px solid rgba(255,255,255,.65); border-radius:28px; padding:40px 32px;
+      box-shadow:0 30px 80px -24px rgba(230,57,70,.35), inset 0 1px 0 rgba(255,255,255,.8);
+    }
+    .return-card h1{ font-family:'Unbounded'; font-weight:800; font-size:26px; margin:0 0 12px; letter-spacing:-.01em; }
+    .return-card p{ color:var(--text); font-size:16px; line-height:1.6; margin:0 0 20px; }
+    .code-box{
+      font-family:'JetBrains Mono',monospace; font-weight:600; font-size:26px;
+      letter-spacing:.05em; padding:20px; border-radius:16px; margin:20px 0;
+      background:linear-gradient(135deg,#fff3df,#ffe4e0); border:1.5px dashed var(--line-strong);
+      color:var(--ink); user-select:all;
+    }
+    .spinner{
+      width:44px; height:44px; margin:20px auto; border-radius:50%;
+      border:4px solid var(--line); border-top-color:var(--orange);
+      animation:spin 1s linear infinite;
+    }
+    @keyframes spin{ to{ transform:rotate(360deg); } }
+    .btn-go{
+      display:inline-block; margin-top:10px; padding:15px 34px; border-radius:14px;
+      background:var(--grad); color:#fff; font-family:'Unbounded'; font-weight:600; font-size:16px;
+      border:none; cursor:pointer; box-shadow:0 12px 28px -8px rgba(230,57,70,.5); text-decoration:none;
+    }
+    .copy-hint{ font-size:13px; color:var(--dim); margin-top:8px; }
+  </style>
+</head>
+<body>
+  <div class="return-wrap">
+    <div class="return-card" id="card">
+      <div class="spinner" id="spinner"></div>
+      <h1 id="title">Проверяем оплату…</h1>
+      <p id="message">Это займёт несколько секунд. Не закрывайте страницу.</p>
+      <div id="code-area" style="display:none;">
+        <div class="code-box" id="code"></div>
+        <p class="copy-hint">Скопируйте этот код — он понадобится, чтобы открыть премиум.</p>
+        <a href="index.html" class="btn-go">Ввести код в приложении →</a>
+      </div>
+      <div id="fail-area" style="display:none;">
+        <a href="index.html" class="btn-go">Вернуться в приложение</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ⚙️ ЗАМЕНИ на адрес своего бэкенда (тот же, что в app.js):
+    const HISPANIST_API = 'https://ЗАМЕНИ-НА-АДРЕС-БЭКЕНДА';
+
+    const paymentId = localStorage.getItem('last_payment_id');
+    const spinner = document.getElementById('spinner');
+    const title = document.getElementById('title');
+    const message = document.getElementById('message');
+    const codeArea = document.getElementById('code-area');
+    const codeBox = document.getElementById('code');
+    const failArea = document.getElementById('fail-area');
+
+    let attempts = 0;
+    const MAX_ATTEMPTS = 20; // ~40 секунд
+
+    async function checkPayment() {
+      if (!paymentId) {
+        showFail('Не найден платёж. Если вы оплатили — вернитесь в приложение и введите код из письма.');
+        return;
+      }
+      try {
+        const res = await fetch(`${HISPANIST_API}/api/purchase/${paymentId}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.status === 'succeeded' && data.premium_code) {
+            showCode(data.premium_code);
+            return;
+          }
+        }
+      } catch (e) { /* ждём и повторяем */ }
+
+      attempts++;
+      if (attempts < MAX_ATTEMPTS) {
+        setTimeout(checkPayment, 2000);
+      } else {
+        showFail('Оплата обрабатывается дольше обычного. Код придёт, попробуйте обновить страницу через минуту.');
+      }
+    }
+
+    function showCode(code) {
+      spinner.style.display = 'none';
+      title.textContent = '🎉 Оплата прошла!';
+      message.textContent = 'Ваш премиум-код готов:';
+      codeBox.textContent = code;
+      codeArea.style.display = 'block';
+      localStorage.removeItem('last_payment_id');
+    }
+
+    function showFail(msg) {
+      spinner.style.display = 'none';
+      title.textContent = 'Хм, что-то пошло не так';
+      message.textContent = msg;
+      failArea.style.display = 'block';
+    }
+
+    checkPayment();
+  </script>
+</body>
+</html>
