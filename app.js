@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // ⚙️ ЗАМЕНИ на адрес своего бэкенда после деплоя на Timeweb:
+  const HISPANIST_API = 'https://ЗАМЕНИ-НА-АДРЕС-БЭКЕНДА';
+  const PREMIUM_PRICE = '249';
   // --- DOM элементы ---
   const homeScreen = document.getElementById('home-screen');
   const studyScreen = document.getElementById('study-screen');
@@ -207,9 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ===== ПРЕМИУМ ЛОГИКА =====
-  // Хэш от кода ESPAÑOL2026
-  const PREMIUM_HASH = '7a2f5099bf9b59a7d2885737c912ea64960fd2cf6919860bce18414bf4946db7';
-
+  // Оплата премиума через бэкенд (ЮKassa)
   function openPremiumModal() {
     premiumModal.classList.remove('hidden');
     premiumMessage.textContent = '';
@@ -217,6 +218,34 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   goPremiumBtn.addEventListener('click', openPremiumModal);
+
+  // ===== ОПЛАТА через ЮKassa =====
+  const buyBtn = document.getElementById('buy-premium');
+  if (buyBtn) {
+    buyBtn.addEventListener('click', async () => {
+      buyBtn.disabled = true;
+      buyBtn.textContent = 'Переходим к оплате…';
+      try {
+        const returnUrl = location.origin + location.pathname.replace(/index\.html$/, '') + 'return.html';
+        const res = await fetch(`${HISPANIST_API}/api/pay`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ return_url: returnUrl })
+        });
+        if (!res.ok) throw new Error('pay failed');
+        const data = await res.json();
+        // сохраним id платежа, чтобы страница возврата показала код
+        localStorage.setItem('last_payment_id', data.payment_id);
+        window.location.href = data.confirmation_url;
+      } catch (e) {
+        buyBtn.disabled = false;
+        buyBtn.textContent = `Оплатить ${PREMIUM_PRICE} ₽`;
+        premiumMessage.style.color = '#e63946';
+        premiumMessage.textContent = '❌ Не удалось начать оплату. Попробуйте позже.';
+      }
+    });
+  }
+
 
   closeModal.addEventListener('click', () => {
     premiumModal.classList.add('hidden');
@@ -229,25 +258,33 @@ document.addEventListener('DOMContentLoaded', () => {
       premiumMessage.style.color = '#e63946';
       return;
     }
-    const encoder = new TextEncoder();
-    const data = encoder.encode(code);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-
-    if (hashHex === PREMIUM_HASH) {
-      const expiry = Date.now() + 30 * 24 * 60 * 60 * 1000; // 30 дней
-      localStorage.setItem('premium_expiry', expiry.toString());
-      premiumMessage.style.color = '#2e9d5a';
-      premiumMessage.textContent = '✅ Премиум активирован на 30 дней!';
-      fireConfetti();
-      setTimeout(() => {
-        premiumModal.classList.add('hidden');
-        renderTopics();
-      }, 1200);
-    } else {
+    premiumMessage.style.color = '#a87a63';
+    premiumMessage.textContent = 'Проверяем код…';
+    try {
+      const res = await fetch(`${HISPANIST_API}/api/verify-code`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: code })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const days = data.days || 30;
+        const expiry = Date.now() + days * 24 * 60 * 60 * 1000;
+        localStorage.setItem('premium_expiry', expiry.toString());
+        premiumMessage.style.color = '#2e9d5a';
+        premiumMessage.textContent = '✅ Премиум активирован на 30 дней!';
+        fireConfetti();
+        setTimeout(() => {
+          premiumModal.classList.add('hidden');
+          renderTopics();
+        }, 1200);
+      } else {
+        premiumMessage.style.color = '#e63946';
+        premiumMessage.textContent = '❌ Неверный код или он ещё не оплачен.';
+      }
+    } catch (e) {
       premiumMessage.style.color = '#e63946';
-      premiumMessage.textContent = '❌ Неверный код. Попробуйте снова.';
+      premiumMessage.textContent = '❌ Ошибка связи. Проверьте интернет и попробуйте снова.';
     }
   });
 
